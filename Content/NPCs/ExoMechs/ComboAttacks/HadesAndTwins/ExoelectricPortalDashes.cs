@@ -124,7 +124,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks.HadesAndTwins
                     for (int i = 0; i < blurWeights.Length; i++)
                         blurWeights[i] = Utilities.GaussianDistribution(i / (float)(blurWeights.Length - 1f) * 1.5f, 0.6f);
 
-                    ManagedShader cutoffShader = ShaderManager.GetShader("FargowiltasCrossmod.HadesSegmentCutoffShader");
+                    ManagedShader cutoffShader = ShaderManager.GetShader("WoTM.HadesSegmentCutoffShader");
                     cutoffShader.TrySetParameter("blurWeights", blurWeights);
                     cutoffShader.TrySetParameter("blurInterpolant", LumUtils.InverseLerp(65f, 175f, npc.velocity.Length()));
                     cutoffShader.TrySetParameter("blurDirection", npc.velocity.SafeNormalize(Vector2.Zero));

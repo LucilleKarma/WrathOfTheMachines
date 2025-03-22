@@ -1,60 +1,60 @@
 Projectiles: {
 	ApolloLineTelegraph.DisplayName: 阿波罗路线预警
 	ApolloMissile.DisplayName: 等离子导弹
-	// AresMissile.DisplayName: Thermal Missile
-	// AresMissileBackground.DisplayName: Thermal Missile
+	AresMissile.DisplayName: 热能导弹
+	AresMissileBackground.DisplayName: 热能导弹
 	ArtemisLaserImproved.DisplayName: 热能激光
 	ArtemisLaserSmall.DisplayName: 小热能激光
 	CannonLaserbeam.DisplayName: 激活热能死光
 	DraedonLootCrate.DisplayName: 嘉登战利品箱
-	// ExoelectricBlast.DisplayName: Exoelectric Blast
-	// ExoOverloadDeathray.DisplayName: Exo Overload Deathray
+	ExoelectricBlast.DisplayName: 星流电磁爆炸
+	ExoOverloadDeathray.DisplayName: 星流过载死亡射线
 	GaussNuke.DisplayName: 高斯核弹
 	GaussNukeBoom.DisplayName: 热核爆炸
 	HadesExoEnergyOrb.DisplayName: 星流电能球
 	HadesLaserBurst.DisplayName: 激光脉冲
 	HadesMine.DisplayName: 哈迪斯之雷
-	// HadesSuperLaserbeam.DisplayName: Exo Energy Blast
+	HadesSuperLaserbeam.DisplayName: 星流能量爆炸
 	HomingTeslaBurst.DisplayName: 特斯拉爆破
 	LargeTeslaSphere.DisplayName: 巨型特斯拉电球
 	LargeTeslaSphereExplosion.DisplayName: 特斯拉爆破
 	LingeringPlasmaFireball.DisplayName: 滞留等离子火球
-	SmallTeslaArc.DisplayName: Small 特斯拉电弧
-	// ExothermalDisintegrationRay.DisplayName: Exothermal Disintegration Ray
+	SmallTeslaArc.DisplayName: 特斯拉电弧
+	ExothermalDisintegrationRay.DisplayName: 星流热能裂解射线
 	// ScourgeSandstream.DisplayName: Scourge Sandstream
-	// SmallTeslaSphere.DisplayName: Tesla Sphere
-	// PlasmaFlameJet.DisplayName: Exoplasma Flame Jet
-	// BlazingExoLaserbeam.DisplayName: Blazing Exo Laserbeam
-	// AresDeathAnimationExplosion.DisplayName: Explosion
-	// SmallHadesSegmentExplosion.DisplayName: Explosion
-	// BigHadesSegmentExplosion.DisplayName: Explosion
-	// AresCoreLaserSmall.DisplayName: Energized Spark
-	// AresSwingingKatanas.DisplayName: XF-09 Ares Energy Katana
-	// ApolloPlasmaFireball.DisplayName: Plasma Fireball
-	// AresHyperfuturisticPortal.DisplayName: Hyperfuturistic Portal
-	// ExoTwinHyperfuturisticPortal.DisplayName: Hyperfuturistic Portal
-	// HadesMissile.DisplayName: Fortified Missile
-	// CodebreakerDataStream.DisplayName: Codebreaker Data Stream
-	// SmallCannonLaser.DisplayName: Laser
-	// PulseBlast.DisplayName: Pulse Blast
-	// ExoelectricFieldDestabilizerOrb.DisplayName: Exoelectric Field Destabilizer Orb
-	// ExoelectricFieldDestabilizerProjectile.DisplayName: Exoelectric Field Destabilizer Projectile
-	// RefractionRotorProjectile_Custom.DisplayName: Refraction Rotor Projectile_ Custom
-	// SpineOfHadesProjectile_Custom.DisplayName: Spine Of Hades Projectile_ Custom
-	// SurgeDriverBlast.DisplayName: Surge Driver Blast
-	// SurgeDriverProjectile.DisplayName: Surge Driver Projectile
-	// AtomSplitterSpamSource.DisplayName: Atom Splitter Spam Source
-	// SplitAtomSplitterProjectile.DisplayName: Split Atom Splitter Projectile
-	// TheAtomSplitterProjectile_Custom.DisplayName: The Atom Splitter Projectile_ Custom
-	// ApolloMissile2.DisplayName: Apollo Missile
-	// HadesLineTelegraph.DisplayName: Hades Line Telegraph
+	SmallTeslaSphere.DisplayName: 特斯拉电球
+	PlasmaFlameJet.DisplayName: 星流等离子火焰喷流
+	BlazingExoLaserbeam.DisplayName: 星流激光火焰
+	AresDeathAnimationExplosion.DisplayName: 爆炸
+	SmallHadesSegmentExplosion.DisplayName: 爆炸
+	BigHadesSegmentExplosion.DisplayName: 爆炸
+	AresCoreLaserSmall.DisplayName: 充能火花
+	AresSwingingKatanas.DisplayName: XF-09 “阿瑞斯”能量斩
+	ApolloPlasmaFireball.DisplayName: 等离子火球
+	AresHyperfuturisticPortal.DisplayName: 超未来主义传送门
+	ExoTwinHyperfuturisticPortal.DisplayName: 超未来主义传送门
+	HadesMissile.DisplayName: 强化导弹
+	CodebreakerDataStream.DisplayName: 密码破译器激光
+	SmallCannonLaser.DisplayName: 激光
+	PulseBlast.DisplayName: 脉冲爆
+	ExoelectricFieldDestabilizerOrb.DisplayName: 星流电场失稳仪电球
+	ExoelectricFieldDestabilizerProjectile.DisplayName: 星流电场失稳仪
+	RefractionRotorProjectile_Custom.DisplayName: 衍曜旋刃
+	SpineOfHadesProjectile_Custom.DisplayName: 哈迪斯的脊柱
+	SurgeDriverBlast.DisplayName: 煌晖御流炮爆炸
+	SurgeDriverProjectile.DisplayName: 煌晖御流炮
+	AtomSplitterSpamSource.DisplayName: 微元劫裂者
+	SplitAtomSplitterProjectile.DisplayName: 微元劫裂者
+	TheAtomSplitterProjectile_Custom.DisplayName: 微元劫裂者
+	ApolloMissile2.DisplayName: 阿波罗导弹
+	HadesLineTelegraph.DisplayName: 哈迪斯预警线
 }
 
 NPCs: {
 	AresHand: {
 		DisplayName: 阿瑞斯之手
-		// EnergyKatanaDisplayName: XF-09 Ares Energy Katana
-		// PulseCannonDisplayName: XF-09 Ares Pulse Cannon
+		EnergyKatanaDisplayName: XF-09 “阿瑞斯”能量斩
+		PulseCannonDisplayName: XF-09 “阿瑞斯”脉冲炮
 	}
 
 	Draedon: {
@@ -64,7 +64,7 @@ NPCs: {
 		IntroductionMonologue4: 而你，则将在战斗中向我展示你的本质。
 		IntroductionMonologue5: 现在，选择吧。
 		IntroductionMonologueBrief: 做出你的选择。
-		ExoMechChoiceResponse1: 很好。
+		ExoMechChoiceResponse1: 很好。你的飞行能力将在实验开始后得到提升。
 		ExoMechChoiceResponse2: 它们很快就会到来。
 		Interjection1: 嗯……
 		Interjection2_Thermal_Minor: 直至目前，你看起来只是受到了轻微的热能灼伤。
@@ -84,14 +84,14 @@ NPCs: {
 		Interjection2_BluntForceTrauma_NearLethal: 直至目前，你看起来已经受到了近乎致命的钝器创伤。
 		Interjection2_Undamaged: 着实令人着迷，你看起来没有受到任何伤害。
 		Interjection3: 不错的成果。
-		Interjection4: 现在，为下一阶段的测试，我们将重置其控制系统的变量。
+		Interjection4: 现在，为下一阶段的测试，我们将把变量重置为对照值。
 		Interjection5: 现在，做好准备。
 		Interjection6: 我剩余的几台机械很快就会到来。
 		Interjection7: 难以置信。
 		Interjection8: 迄今为止，你给我提供的所有数据均为无价之宝。
 		Interjection9: 现在，是时候进入测试的最终阶段了。
 		Interjection10: 我已经命令我的最后一台机械以最大火力运行。
-		// Interjection10_Plural: I have instructed my last machines to operate at maximum firepower.
+		Interjection10_Plural: 我已经命令我的最后两台机械以最大火力运行。
 		Interjection11: 祝你好运。
 		EndOfBattle_FirstDefeat1: 出乎意料！
 		EndOfBattle_FirstDefeat2: 这一结果远远超越了我预想中的期望。
@@ -99,13 +99,13 @@ NPCs: {
 		EndOfBattle_FirstDefeat4: 拿上这个吧，这是对你愿意付出时间的感谢。
 		EndOfBattle_FirstDefeat5: 如果你想再次和我的机械战斗，你应当知道如何使用密码破译器。
 		EndOfBattle_FirstDefeat6: 那么，再会。
-		EndOfBattle_SuccessiveDefeat1: 这是另一场已完成的实验。
+		EndOfBattle_SuccessiveDefeat1: 又一场实验顺利完成。
 		EndOfBattle_SuccessiveDefeat2: 那么，让我分析一下结果……
-		EndOfBattle_SuccessiveDefeat3_Perfect: 出乎意料！你对这场战斗的投入、耐心、谨慎与技巧均未被忽略。
+		EndOfBattle_SuccessiveDefeat3_Perfect: 出乎意料！你对这场战斗的投入、耐心、谨慎与技巧，我都已作充分记录。
 		EndOfBattle_SuccessiveDefeat3_Excellent: 你拥有优异的天赋，如果再谨慎些许，一个完美的结果将触手可及。
-		EndOfBattle_SuccessiveDefeat3_Good: 有用的成果。
-		EndOfBattle_SuccessiveDefeat3_Acceptable: 平庸的成果，但还算有用。
-		EndOfBattle_SuccessiveDefeat3_Bad: 这些数据没啥用处。
+		EndOfBattle_SuccessiveDefeat3_Good: 这次的成果是有用的。
+		EndOfBattle_SuccessiveDefeat3_Acceptable: 这次的成果虽然平庸，但还算有用。
+		EndOfBattle_SuccessiveDefeat3_Bad: 这些数据几乎不能使用。
 		EndOfBattle_SuccessiveDefeat3_WhyDidYouMeltTheBoss: 这些数据对我而言毫无用处。
 		EndOfBattle_SuccessiveDefeat4_Perfect: 这些数据拥有极高的品质。
 		EndOfBattle_SuccessiveDefeat4_Excellent: 也许不久之后，你就能够拥有突破性的见解？
@@ -119,38 +119,38 @@ NPCs: {
 		EndOfBattle_FirstDefeatReconBodyKill1: 有趣……
 		EndOfBattle_FirstDefeatReconBodyKill2: 我并非没有将你“易怒”的这一数据点考虑在内。
 		EndOfBattle_FirstDefeatReconBodyKill3: 不管怎么样，正如我所说的……
-		// Death: Precisely within the margins of my calculations.
-		// PlayerDeathAtAmusingTime: That was rather inopportune, but still within the margins of my calculations.
-		Error: 该文本不应显示。
+		Death: 精准落在我的计算范围之内。
+		PlayerDeathAtAmusingTime: 很不巧，不过仍然落在我的计算范围之内。
+		Error: 这个现实的结构被撕裂了。
 	}
 
-	ThanatosRename: XM-04“哈迪斯”
-	// ApolloRename: XS-11 Apollo
-	// ExoTwinsRenameNormal: XS-01 Artemis and XS-11 Apollo
+	ThanatosRename: XM-04 “哈迪斯”
+	ApolloRename: XS-11 “阿波罗”
+	ExoTwinsRenameNormal: XS-01 “阿尔忒弥斯”和 XS-11 “阿波罗”
 }
 
 Items: {
 	ExoelectricFieldDestabilizer: {
-		// DisplayName: Exoelectric Field Destabilizer
-		// Tooltip: Charges up and releases enormous electric spheres
+		DisplayName: 星流电场失稳仪
+		Tooltip: 充能并释放大量电球
 	}
 
 	SpineOfHades: {
-		// DisplayName: Spine of Hades
-		// Tooltip: Releases an electrically supercharged whip
+		DisplayName: 哈迪斯的脊柱
+		Tooltip: 释放一条电力超充能鞭
 	}
 }
 
 Bestiary: {
-	// Draedon: A disposable recon body for the esteemed scientist, Draedon. His unyielding dedication to the pursuit of knowledge is as extraordinary as his marked amorality.
-	// Hades: One of Draedon's finest creations. This automaton expels built up heat and pressure through its vents, concentrating the resulting energy into potent wide-range attacks.
-	// Ares: One of Draedon's finest creations. This automaton is capable of dynamically detaching its mounted weapons as necessary, and boasts an astonishing affinity for melee combat.
-	// Artemis: One of Draedon's finest creations. This automaton channels thermal energy through its orange crystalline lattices. It operates in unfaltering unison with Apollo when engaged in combat.
-	// Apollo: One of Draedon's finest creations. This automaton excels at high-velocity aerial attacks involving its plasma reserves. It is seemingly programmed to be protective of Artemis.
+	Draedon: 一具一次性侦查机体，作为受人尊敬的科学家嘉登而现身。他不屈不挠的求知精神与他对道德的明显漠视同等超乎寻常。
+	Hades: 嘉登最完美的造物之一。这台自动机将积累的热量和压力从通风口排出，以汇聚产生的能量进行有力的大范围打击。
+	Ares: 嘉登最完美的造物之一。这台自动机可以在需要时装卸所搭载的武器，且对近身格斗有着惊人的适应力。
+	Artemis: 嘉登最完美的造物之一。这台自动机通过它的橙色晶格来引导热能。在战斗中，它与阿波罗紧密协作，毫不迟疑。
+	Apollo: 嘉登最完美的造物之一。这台自动机在使用其等离子体储备进行高度气动攻击时发挥出色。它似乎是被设计为保护阿尔忒弥斯的。
 }
 
 UI: {
-	// AresIconMessage: Ares, a heavyweight, diabolical monstrosity with four detachable Exo superweapons.
-	// ArtemisAndApolloIconMessage: Artemis and Apollo, a pair of extraordinarily nimble automatons with unstable energy reserves.
-	// HadesIconMessage: Hades, a serpentine terror with impervious armor and innumerable laser turrets.
+	AresIconMessage: 阿瑞斯，一个搭载着四台可装卸超级星流武器的庞然巨物。
+	ArtemisAndApolloIconMessage: 阿尔忒弥斯与阿波罗，一对能量储备十分不稳定的超敏捷自动机器。
+	HadesIconMessage: 哈迪斯，一条装备着厚重铠甲、搭载了无数机关炮的恐怖巨蟒。
 }
