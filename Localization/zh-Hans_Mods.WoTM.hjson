@@ -21,7 +21,7 @@ Projectiles: {
 	LingeringPlasmaFireball.DisplayName: 滞留等离子火球
 	SmallTeslaArc.DisplayName: 特斯拉电弧
 	ExothermalDisintegrationRay.DisplayName: 星流热能裂解射线
-	// ScourgeSandstream.DisplayName: Scourge Sandstream
+	ScourgeSandstream.DisplayName: 天灾沙流
 	SmallTeslaSphere.DisplayName: 特斯拉电球
 	PlasmaFlameJet.DisplayName: 星流等离子火焰喷流
 	BlazingExoLaserbeam.DisplayName: 星流激光火焰
