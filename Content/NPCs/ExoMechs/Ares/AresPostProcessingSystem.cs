@@ -10,7 +10,7 @@ using WoTM.Common.Utilities;
 
 namespace WoTM.Content.NPCs.ExoMechs.Ares
 {
-    public sealed class AresSilhouetteRenderingSystem : ModSystem
+    public sealed class AresPostProcessingSystem : ModSystem
     {
         public override void OnModLoad() => On_Main.DrawProjectiles += DrawAresSilhouetteWrapper;
 
@@ -25,7 +25,6 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             if (!ares.TryGetBehavior(out AresBodyBehavior aresBehavior))
                 return;
 
-            // TODO -- Move this elsewhere.
             if (aresBehavior.MotionBlurInterpolant > 0f)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, Matrix.Identity);
