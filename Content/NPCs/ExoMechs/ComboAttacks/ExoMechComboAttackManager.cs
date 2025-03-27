@@ -212,6 +212,12 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks
                 if (!ExoMechNPCIDs.ExoMechIDs.Contains(npc.type) || !npc.TryGetBehavior(out NPCBehaviorOverride behavior))
                     continue;
 
+                // This accounts for one-frame discrepancies when changing states, ensuring that only Exo Mechs that are intended for a given combo execute said combo.
+                // Cases have arisen where Artemis and Apollo disappear due to running the SuperchargedTurbodashes state for one frame before the mayhem phase begins, and then disappear,
+                // since they aren't supposed to be involved during the turbodashes attack, Hades and Ares are.
+                if (!ExoMechFightStateManager.ActiveManagingExoMechs.Contains(behavior))
+                    continue;
+
                 // Check if any of the Exo Mechs want to sync.
                 // If they do, that could mean a time sensitive event has occurred, and as such it's best to be safe and sync the timer.
                 if (npc.netUpdate)
