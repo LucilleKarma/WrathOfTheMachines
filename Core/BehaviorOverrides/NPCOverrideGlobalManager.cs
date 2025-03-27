@@ -13,8 +13,6 @@ namespace WoTM.Core.BehaviorOverrides
 {
     public class NPCOverrideGlobalManager : GlobalNPC
     {
-        public override bool IsLoadingEnabled(Mod mod) => true;
-
         /// <summary>
         /// The relationship of NPC ID to corresponding override.
         /// </summary>
