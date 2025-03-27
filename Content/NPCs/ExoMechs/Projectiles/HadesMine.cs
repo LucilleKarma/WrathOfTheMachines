@@ -15,6 +15,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using WoTM.Content.NPCs.ExoMechs.SpecificManagers;
 using WoTM.Content.Particles;
+using WoTMFireParticle = WoTM.Content.Particles.FireParticle;
 
 namespace WoTM.Content.NPCs.ExoMechs.Projectiles
 {
@@ -176,15 +177,14 @@ namespace WoTM.Content.NPCs.ExoMechs.Projectiles
             // Create inner lingering fire.
             for (int i = 0; i < 30; i++)
             {
-                int fireLifetime = Main.rand.Next(25, 50);
-                float fireRotationalVelocity = Main.rand.NextFloatDirection() * 0.08f;
+                int fireLifetime = Main.rand.Next(32, 50);
                 Vector2 fireVelocity = Main.rand.NextVector2Circular(5f, 3f) - Vector2.UnitY * Main.rand.NextFloat(2.6f, 3.3f);
                 if (Main.rand.NextBool())
                     fireVelocity.Y *= -0.6f;
                 fireVelocity *= 3f;
 
-                HeavySmokeParticle fire = new(Projectile.Center, fireVelocity, Color.Lerp(Color.Orange, Color.Wheat, Main.rand.NextFloat(0.75f)), fireLifetime, 0.7f, 1f, fireRotationalVelocity, true);
-                GeneralParticleHandler.SpawnParticle(fire);
+                WoTMFireParticle fire = new(Projectile.Center, fireVelocity, Color.Lerp(Color.Orange, Color.Wheat, Main.rand.NextFloat(0.75f)), fireLifetime, Main.rand.NextFloat(0.8f, 1.33f));
+                fire.Spawn();
             }
         }
     }
