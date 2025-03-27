@@ -14,7 +14,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue
         /// <summary>
         /// Whether subtitles should be used over chat-based text.
         /// </summary>
-        public static bool UseSubtitles => true;
+        public static bool UseSubtitles => false;
 
         public override void PostSetupContent()
         {
