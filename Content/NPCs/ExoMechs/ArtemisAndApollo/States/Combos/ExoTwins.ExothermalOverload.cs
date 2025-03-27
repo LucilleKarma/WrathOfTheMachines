@@ -16,7 +16,6 @@ using WoTM.Content.Particles;
 
 namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 {
-    // TODO -- Move to JSON.
     public static partial class ExoTwinsStates
     {
         /// <summary>

@@ -20,7 +20,6 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue
         {
             Color edgyTextColor = CalamityMod.NPCs.ExoMechs.Draedon.TextColorEdgy;
 
-            // TODO -- Autoload, then add timings and stuff afterwards on a case by case basis, rather than doing this manually.
             GenerateNew("IntroductionMonologue1");
             GenerateNew("IntroductionMonologue2");
             GenerateNew("IntroductionMonologue3");
