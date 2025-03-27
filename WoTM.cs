@@ -2,9 +2,9 @@
 using System.IO;
 using CalamityMod.Events;
 using CalamityMod.NPCs.ExoMechs;
-using InfernumMode.Core.Netcode;
 using Terraria.ModLoader;
 using WoTM.Content.NPCs.ExoMechs.Ares;
+using WoTM.Core.Networking;
 
 namespace WoTM
 {
