@@ -13,13 +13,13 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CalamityMod">
-      <HintPath>..\CalamityMod\bin\Debug\net8.0\CalamityMod.dll</HintPath>
+      <HintPath>ModReferences\CalamityMod.dll</HintPath>
     </Reference>
     <Reference Include="InfernumMode">
       <HintPath>ModReferences\InfernumMode.dll</HintPath>
     </Reference>
     <Reference Include="Luminance">
-      <HintPath>..\Luminance\bin\Debug\net8.0\Luminance.dll</HintPath>
+      <HintPath>ModReferences\Luminance.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
