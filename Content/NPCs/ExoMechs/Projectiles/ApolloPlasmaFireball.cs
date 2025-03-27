@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using WoTM.Content.NPCs.ExoMechs.SpecificManagers;
 using WoTM.Content.Particles;
 using WoTM.Content.Particles.Dusts;
+using WoTMFireParticle = WoTM.Content.Particles.FireParticle;
 
 namespace WoTM.Content.NPCs.ExoMechs.Projectiles
 {
@@ -125,6 +126,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Projectiles
                 Vector2 smokeVelocity = Main.rand.NextVector2Circular(30f, 19.5f) - Vector2.UnitY * Main.rand.NextFloat(2f, 2.8f);
                 if (Main.rand.NextBool())
                     smokeVelocity.Y *= -0.4f;
+                smokeVelocity *= 0.65f;
 
                 HeavySmokeParticle smoke = new(Projectile.Center, smokeVelocity, Color.Lerp(Color.LightGray, Color.Brown, Main.rand.NextFloat(0.5f)), Main.rand.Next(120, 180), 0.7f, 1f, smokeRotationalVelocity, false);
                 GeneralParticleHandler.SpawnParticle(smoke);
@@ -133,15 +135,13 @@ namespace WoTM.Content.NPCs.ExoMechs.Projectiles
             // Create inner lingering plasma fire.
             for (int i = 0; i < 85; i++)
             {
-                int fireLifetime = Main.rand.Next(25, 50);
-                float fireRotationalVelocity = Main.rand.NextFloatDirection() * 0.08f;
-                float fireScale = Main.rand.NextFloat(0.5f, 0.75f);
-                Vector2 fireVelocity = Main.rand.NextVector2Circular(12f, 12f);
+                int fireLifetime = Main.rand.Next(36, 60);
+                Vector2 fireVelocity = Main.rand.NextVector2Circular(23f, 23f);
                 if (Main.rand.NextBool())
                     fireVelocity.Y *= -0.6f;
 
-                HeavySmokeParticle fire = new(Projectile.Center, fireVelocity, Color.Lerp(Color.Green, Color.Wheat, Main.rand.NextFloat(0.75f)), fireLifetime, fireScale, 1f, fireRotationalVelocity, true);
-                GeneralParticleHandler.SpawnParticle(fire);
+                WoTMFireParticle fire = new(Projectile.Center, fireVelocity, Color.Lerp(new Color(99, 221, 4), Color.Wheat, Main.rand.NextFloat(0.75f)), fireLifetime, Main.rand.NextFloat(0.8f, 1.33f));
+                fire.Spawn();
             }
         }
 
