@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using WoTM.Common.Utilities;
 using WoTM.Content.NPCs.ExoMechs.FightManagers;
 using WoTM.Content.NPCs.ExoMechs.Hades;
+using WoTM.Content.NPCs.ExoMechs.Packets;
 using WoTM.Core.BehaviorOverrides;
+using WoTM.Core.Networking;
 
 namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks
 {
@@ -88,9 +91,18 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks
         private static void Reset()
         {
             if (CurrentState != NullComboState)
+            {
                 CurrentState = NullComboState;
+                if (Main.netMode == NetmodeID.Server)
+                    PacketManager.SendPacket<ExoMechComboAttackPacket>();
+            }
+
             if (ComboAttackTimer != 0)
+            {
                 ComboAttackTimer = 0;
+                if (Main.netMode == NetmodeID.Server)
+                    PacketManager.SendPacket<ExoMechComboTimerPacket>();
+            }
         }
 
         /// <summary>
@@ -165,6 +177,8 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks
         private static void SelectNewComboAttackState(bool justStarted)
         {
             ComboAttackTimer = 0;
+            if (Main.netMode == NetmodeID.Server)
+                PacketManager.SendPacket<ExoMechComboTimerPacket>();
 
             var potentialCandidates = RegisteredComboAttacks.Where(attack =>
             {
@@ -181,7 +195,12 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks
             {
                 CurrentState = potentialCandidates.FirstOrDefault() ?? NullComboState;
                 if (CurrentState != previousState)
+                {
+                    if (Main.netMode == NetmodeID.Server)
+                        PacketManager.SendPacket<ExoMechComboAttackPacket>();
+
                     break;
+                }
             }
         }
 
@@ -254,6 +273,9 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks
             // Automatically sync the AI timer periodically, to ensure nothing drifts too much.
             if (ComboAttackTimer % 60 == 0)
                 shouldSyncTimer = true;
+
+            if (shouldSyncTimer && Main.netMode == NetmodeID.Server)
+                PacketManager.SendPacket<ExoMechComboTimerPacket>();
         }
     }
 }
