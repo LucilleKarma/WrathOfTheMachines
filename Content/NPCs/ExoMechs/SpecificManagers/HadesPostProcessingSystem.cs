@@ -31,12 +31,20 @@ namespace WoTM.Content.NPCs.ExoMechs.SpecificManagers
             set;
         }
 
+        /// <summary>
+        /// The scale correction factor for rendering with this system.
+        /// </summary>
+        public static Vector2 ScaleCorrection => HadesTarget.Size() / new Vector2(Main.screenWidth, Main.screenHeight);
+
         public override void OnModLoad()
         {
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            HadesTarget = new(true, ManagedRenderTarget.CreateScreenSizedTarget);
+            HadesTarget = new(true, (width, height) =>
+            {
+                return new RenderTarget2D(Main.instance.GraphicsDevice, width / 2, height / 2);
+            });
             RenderTargetManager.RenderTargetUpdateLoopEvent += RenderHadesToTarget;
 
             On_Main.DrawNPCs += DrawHadesTarget;
@@ -57,7 +65,11 @@ namespace WoTM.Content.NPCs.ExoMechs.SpecificManagers
             {
                 NPC npc = Main.npc[i];
                 if (npc.realLife == CalamityGlobalNPC.draedonExoMechWorm || npc.whoAmI == CalamityGlobalNPC.draedonExoMechWorm)
+                {
+                    npc.scale *= ScaleCorrection.X;
                     NPCLoader.PreDraw(npc, Main.spriteBatch, Main.screenPosition, Lighting.GetColor(npc.Center.ToTileCoordinates()));
+                    npc.scale /= ScaleCorrection.X;
+                }
             }
 
             Main.spriteBatch.End();
@@ -73,7 +85,7 @@ namespace WoTM.Content.NPCs.ExoMechs.SpecificManagers
                 Main.spriteBatch.PrepareForShaders();
 
                 PostProcessingAction?.Invoke();
-                Main.spriteBatch.Draw(HadesTarget, Main.screenLastPosition - Main.screenPosition, Color.White);
+                Main.spriteBatch.Draw(HadesTarget, Main.screenLastPosition - Main.screenPosition, null, Color.White, 0f, Vector2.Zero, 2f, 0, 0f);
 
                 Main.spriteBatch.ResetToDefault();
             }

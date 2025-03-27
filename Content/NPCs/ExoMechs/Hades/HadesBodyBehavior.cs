@@ -13,6 +13,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using WoTM.Common.Utilities;
 using WoTM.Content.NPCs.ExoMechs.FightManagers;
+using WoTM.Content.NPCs.ExoMechs.SpecificManagers;
 using WoTM.Core.BehaviorOverrides;
 
 namespace WoTM.Content.NPCs.ExoMechs.Hades
@@ -446,8 +447,10 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             Texture2D rightPlating2 = RightPlatingTextures[textureIndex][1].Value;
             Texture2D leftPlating3 = LeftPlatingTextures[textureIndex][2].Value;
             Texture2D rightPlating3 = RightPlatingTextures[textureIndex][2].Value;
+            Vector2 positionScale = HadesPostProcessingSystem.ScaleCorrection;
+            drawPosition *= positionScale;
 
-            Vector2 Transform(Vector2 offset) => (offset * new Vector2(NPC.spriteDirection, 1f)).RotatedBy(NPC.rotation);
+            Vector2 Transform(Vector2 offset) => (offset * new Vector2(NPC.spriteDirection, 1f)).RotatedBy(NPC.rotation) * positionScale;
 
             if (!IsSecondaryBodySegment)
             {
@@ -507,20 +510,21 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             int frame = NPC.frame.Y / NPC.frame.Height;
             float glowmaskOpacity = LumUtils.InverseLerp(5f, 15f, (lightColor.R + lightColor.G + lightColor.B) * 0.333f);
             Rectangle rectangleFrame = texture.Frame(1, Main.npcFrameCount[NPC.type], 0, frame);
+            Vector2 positionScale = HadesPostProcessingSystem.ScaleCorrection;
 
             if (!IsTailSegment && PlatingOffset > 0f)
                 DrawManualBodyPlating(drawPosition, lightColor);
             else
             {
                 Color glowmaskColor = Color.White * glowmaskOpacity;
-                Main.spriteBatch.Draw(texture, drawPosition, rectangleFrame, NPC.GetAlpha(lightColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
-                Main.spriteBatch.Draw(glowmask, drawPosition, rectangleFrame, NPC.GetAlpha(glowmaskColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
+                Main.spriteBatch.Draw(texture, drawPosition * positionScale, rectangleFrame, NPC.GetAlpha(lightColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
+                Main.spriteBatch.Draw(glowmask, drawPosition * positionScale, rectangleFrame, NPC.GetAlpha(glowmaskColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
             }
 
             float bloomOpacity = SegmentOpenInterpolant.Squared() * glowmaskOpacity * 0.56f;
             Vector2 bloomDrawPosition = TurretPosition - screenPos;
-            Main.spriteBatch.Draw(bloom, bloomDrawPosition, null, NPC.GetAlpha(Color.Red with { A = 0 }) * bloomOpacity, 0f, bloom.Size() * 0.5f, NPC.scale * 0.4f, 0, 0f);
-            Main.spriteBatch.Draw(bloom, bloomDrawPosition, null, NPC.GetAlpha(Color.Wheat with { A = 0 }) * bloomOpacity * 0.5f, 0f, bloom.Size() * 0.5f, NPC.scale * 0.2f, 0, 0f);
+            Main.spriteBatch.Draw(bloom, bloomDrawPosition * positionScale, null, NPC.GetAlpha(Color.Red with { A = 0 }) * bloomOpacity, 0f, bloom.Size() * 0.5f, NPC.scale * 0.4f, 0, 0f);
+            Main.spriteBatch.Draw(bloom, bloomDrawPosition * positionScale, null, NPC.GetAlpha(Color.Wheat with { A = 0 }) * bloomOpacity * 0.5f, 0f, bloom.Size() * 0.5f, NPC.scale * 0.2f, 0, 0f);
 
             RenderInAccordanceWithHeadInstructions();
 
