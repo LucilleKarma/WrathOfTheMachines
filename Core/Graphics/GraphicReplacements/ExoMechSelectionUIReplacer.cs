@@ -11,7 +11,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using WoTM.Core.CrossCompatibility;
+using WoTM.Core.BehaviorOverrides;
 
 namespace WoTM.Core.Graphics.GraphicReplacements
 {
@@ -84,7 +84,7 @@ namespace WoTM.Core.Graphics.GraphicReplacements
         /// </remarks>
         public static void DrawCustomUI()
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!NPCOverrideGlobalManager.OverridesPermitted)
                 return;
 
             HadesIcon.Update();

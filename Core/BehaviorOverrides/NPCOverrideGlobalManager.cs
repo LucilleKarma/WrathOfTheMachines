@@ -25,6 +25,11 @@ namespace WoTM.Core.BehaviorOverrides
         /// </summary>
         internal NPCBehaviorOverride? BehaviorOverride;
 
+        /// <summary>
+        /// Whether override effects are permitted by this mod.
+        /// </summary>
+        internal static bool OverridesPermitted => !InfernumModeCompatibility.InfernumModeIsActive && !ModLoader.HasMod("FargowiltasCrossmod");
+
         public override bool InstancePerEntity => true;
 
         public override void OnSpawn(NPC npc, IEntitySource source)
@@ -38,7 +43,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void SetDefaults(NPC entity)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.SetDefaults();
@@ -52,7 +57,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override bool PreAI(NPC npc)
         {
-            if (!InfernumModeCompatibility.InfernumModeIsActive && BehaviorOverride is not null)
+            if (OverridesPermitted && BehaviorOverride is not null)
             {
                 BehaviorOverride.AI();
                 return false;
@@ -63,7 +68,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void FindFrame(NPC npc, int frameHeight)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.FindFrame(frameHeight);
@@ -71,7 +76,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void BossHeadSlot(NPC npc, ref int index)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.BossHeadSlot(ref index);
@@ -79,7 +84,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void ModifyTypeName(NPC npc, ref string typeName)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.ModifyTypeName(ref typeName);
@@ -87,7 +92,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override bool PreKill(NPC npc)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return true;
 
             if (!(BehaviorOverride?.PreKill() ?? true))
@@ -99,7 +104,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.ModifyNPCLoot(npcLoot);
@@ -111,7 +116,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.ModifyHitByProjectile(projectile, ref modifiers);
@@ -119,7 +124,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
-            if (!InfernumModeCompatibility.InfernumModeIsActive && BehaviorOverride is not null)
+            if (OverridesPermitted && BehaviorOverride is not null)
                 return BehaviorOverride.GetAlpha(drawColor);
 
             return null;
@@ -127,7 +132,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override void HitEffect(NPC npc, NPC.HitInfo hit)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return;
 
             BehaviorOverride?.HitEffect(hit);
@@ -135,7 +140,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive || npc.IsABestiaryIconDummy)
+            if (!OverridesPermitted || npc.IsABestiaryIconDummy)
                 return true;
 
             return BehaviorOverride?.PreDraw(spriteBatch, screenPos, drawColor) ?? true;
@@ -143,7 +148,7 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override bool CheckDead(NPC npc)
         {
-            if (InfernumModeCompatibility.InfernumModeIsActive)
+            if (!OverridesPermitted)
                 return true;
 
             return BehaviorOverride?.CheckDead() ?? true;
