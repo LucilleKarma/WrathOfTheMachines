@@ -3,12 +3,15 @@ using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 using WoTM.Common.Utilities;
 using WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.Common;
 using WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.States;
 using WoTM.Content.NPCs.ExoMechs.ComboAttacks;
 using WoTM.Content.NPCs.ExoMechs.FightManagers;
+using WoTM.Content.NPCs.ExoMechs.Packets;
+using WoTM.Core.Networking;
 
 namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 {
@@ -69,6 +72,8 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
             if (SharedState.AIState == ExoTwinsAIState.PerformComboAttack)
                 SharedState.AITimer = ExoMechComboAttackManager.ComboAttackTimer;
+            else if (Main.netMode == NetmodeID.Server && SharedState.AITimer % 60 == 0)
+                PacketManager.SendPacket<ExoMechExoTwinStatePacket>();
         }
 
         /// <summary>
@@ -168,6 +173,9 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                     break;
             }
             twinAttributes.IndividualState.AITimer++;
+
+            if (Main.netMode == NetmodeID.Server && twin.netUpdate)
+                PacketManager.SendPacket<ExoMechExoTwinStatePacket>();
         }
 
         /// <summary>
@@ -268,6 +276,9 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
             if (SharedState.AIState == ExoTwinsAIState.PerformIndividualAttacks)
                 PickIndividualAIStates();
+
+            if (Main.netMode == NetmodeID.Server)
+                PacketManager.SendPacket<ExoMechExoTwinStatePacket>();
         }
     }
 }
