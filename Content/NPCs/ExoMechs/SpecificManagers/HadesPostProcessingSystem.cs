@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using WoTM.Common.Utilities;
+using WoTM.Content.NPCs.ExoMechs.Hades;
 
 namespace WoTM.Content.NPCs.ExoMechs.SpecificManagers
 {
@@ -67,7 +69,13 @@ namespace WoTM.Content.NPCs.ExoMechs.SpecificManagers
                 if (npc.realLife == CalamityGlobalNPC.draedonExoMechWorm || npc.whoAmI == CalamityGlobalNPC.draedonExoMechWorm)
                 {
                     npc.scale *= ScaleCorrection.X;
-                    NPCLoader.PreDraw(npc, Main.spriteBatch, Main.screenPosition, Lighting.GetColor(npc.Center.ToTileCoordinates()));
+
+                    Color lightColor = Lighting.GetColor(npc.Center.ToTileCoordinates());
+                    if (npc.TryGetBehavior(out HadesHeadBehavior head))
+                        head.DrawSelf(Main.screenPosition, lightColor);
+                    else if (npc.TryGetBehavior(out HadesBodyBehavior body))
+                        body.DrawSelf(Main.screenPosition, lightColor);
+
                     npc.scale /= ScaleCorrection.X;
                 }
             }

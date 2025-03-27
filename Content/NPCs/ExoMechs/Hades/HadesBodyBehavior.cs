@@ -438,7 +438,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
         public void DrawManualBodyPlating(Vector2 drawPosition, Color lightColor)
         {
             int textureIndex = IsSecondaryBodySegment.ToInt();
-            Color color = NPC.GetAlpha(lightColor);
+            Color color = lightColor * NPC.Opacity;
             SpriteEffects direction = NPC.spriteDirection.ToSpriteDirection();
             Texture2D spine = SpineTextures[textureIndex].Value;
             Texture2D leftPlating1 = LeftPlatingTextures[textureIndex][0].Value;
@@ -486,7 +486,11 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color lightColor) => false;
+
+        private new Color GetAlpha(Color c) => c * NPC.Opacity;
+
+        public void DrawSelf(Vector2 screenPos, Color lightColor)
         {
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Thanatos/ThanatosBody1Glow").Value;
@@ -517,18 +521,16 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             else
             {
                 Color glowmaskColor = Color.White * glowmaskOpacity;
-                Main.spriteBatch.Draw(texture, drawPosition * positionScale, rectangleFrame, NPC.GetAlpha(lightColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
-                Main.spriteBatch.Draw(glowmask, drawPosition * positionScale, rectangleFrame, NPC.GetAlpha(glowmaskColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
+                Main.spriteBatch.Draw(texture, drawPosition * positionScale, rectangleFrame, GetAlpha(lightColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
+                Main.spriteBatch.Draw(glowmask, drawPosition * positionScale, rectangleFrame, GetAlpha(glowmaskColor), NPC.rotation, rectangleFrame.Size() * 0.5f, NPC.scale, NPC.spriteDirection.ToSpriteDirection(), 0f);
             }
 
             float bloomOpacity = SegmentOpenInterpolant.Squared() * glowmaskOpacity * 0.56f;
             Vector2 bloomDrawPosition = TurretPosition - screenPos;
-            Main.spriteBatch.Draw(bloom, bloomDrawPosition * positionScale, null, NPC.GetAlpha(Color.Red with { A = 0 }) * bloomOpacity, 0f, bloom.Size() * 0.5f, NPC.scale * 0.4f, 0, 0f);
-            Main.spriteBatch.Draw(bloom, bloomDrawPosition * positionScale, null, NPC.GetAlpha(Color.Wheat with { A = 0 }) * bloomOpacity * 0.5f, 0f, bloom.Size() * 0.5f, NPC.scale * 0.2f, 0, 0f);
+            Main.spriteBatch.Draw(bloom, bloomDrawPosition * positionScale, null, GetAlpha(Color.Red with { A = 0 }) * bloomOpacity, 0f, bloom.Size() * 0.5f, NPC.scale * 0.4f, 0, 0f);
+            Main.spriteBatch.Draw(bloom, bloomDrawPosition * positionScale, null, GetAlpha(Color.Wheat with { A = 0 }) * bloomOpacity * 0.5f, 0f, bloom.Size() * 0.5f, NPC.scale * 0.2f, 0, 0f);
 
             RenderInAccordanceWithHeadInstructions();
-
-            return false;
         }
     }
 }

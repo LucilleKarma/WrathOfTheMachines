@@ -26,7 +26,18 @@ namespace WoTM.Core.BehaviorOverrides
         /// <summary>
         /// Whether override effects are permitted by this mod.
         /// </summary>
-        internal static bool OverridesPermitted => !InfernumModeCompatibility.InfernumModeIsActive && !ModLoader.HasMod("FargowiltasCrossmod");
+        internal static bool OverridesPermitted
+        {
+            get
+            {
+                // Fargos DLC already reworks the Exo Mechs (in extremely similar structure to the WoTM version).
+                // Let the player experience the DLC version if it's enabled.
+                if (FargosCompatibility.EternityModeIsActive && FargosCompatibility.FargosDLC is not null)
+                    return false;
+
+                return true;
+            }
+        }
 
         public override bool InstancePerEntity => true;
 

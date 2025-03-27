@@ -656,7 +656,9 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             NPC.frame.Y = frame * frameHeight;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color lightColor) => false;
+
+        public void DrawSelf(Vector2 screenPos, Color lightColor)
         {
             int frame = NPC.frame.Y / NPC.frame.Height;
             Texture2D texture = ModContent.Request<Texture2D>("WoTM/Content/NPCs/ExoMechs/Hades/HadesHead").Value;
@@ -672,16 +674,14 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             Vector2 rightJawOrigin = rightJawFrame.Size() * new Vector2(0.62f, 0.54f);
             Vector2 leftJawPosition = drawPosition + new Vector2(-32f, 0f).RotatedBy(NPC.rotation) * NPC.spriteDirection * HadesPostProcessingSystem.ScaleCorrection;
             Vector2 rightJawPosition = drawPosition + new Vector2(32f, 0f).RotatedBy(NPC.rotation) * NPC.spriteDirection * HadesPostProcessingSystem.ScaleCorrection;
-            Main.spriteBatch.Draw(leftJawTexture, leftJawPosition, leftJawFrame, NPC.GetAlpha(lightColor), NPC.rotation + JawRotation + MathHelper.Pi, leftJawOrigin, NPC.scale, SpriteEffects.FlipVertically, 0f);
-            Main.spriteBatch.Draw(rightJawTexture, rightJawPosition, rightJawFrame, NPC.GetAlpha(lightColor), NPC.rotation - JawRotation + MathHelper.Pi, rightJawOrigin, NPC.scale, SpriteEffects.FlipVertically, 0f);
+            Main.spriteBatch.Draw(leftJawTexture, leftJawPosition, leftJawFrame, lightColor * NPC.Opacity, NPC.rotation + JawRotation + MathHelper.Pi, leftJawOrigin, NPC.scale, SpriteEffects.FlipVertically, 0f);
+            Main.spriteBatch.Draw(rightJawTexture, rightJawPosition, rightJawFrame, lightColor * NPC.Opacity, NPC.rotation - JawRotation + MathHelper.Pi, rightJawOrigin, NPC.scale, SpriteEffects.FlipVertically, 0f);
 
-            Main.spriteBatch.Draw(texture, drawPosition, NPC.frame, NPC.GetAlpha(lightColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0f);
-            Main.spriteBatch.Draw(glowmask, drawPosition, NPC.frame, NPC.GetAlpha(glowmaskColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0f);
+            Main.spriteBatch.Draw(texture, drawPosition, NPC.frame, lightColor * NPC.Opacity, NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0f);
+            Main.spriteBatch.Draw(glowmask, drawPosition, NPC.frame, glowmaskColor * NPC.Opacity, NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0f);
 
             if (ReticleOpacity >= 0.01f)
                 DrawReticle(ReticleOpacity);
-
-            return false;
         }
 
         /// <summary>
