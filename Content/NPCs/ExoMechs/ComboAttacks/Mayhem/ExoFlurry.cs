@@ -123,8 +123,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks.Mayhem
             if (!npc.TryGetBehavior(out AresBodyBehavior ares))
                 return;
 
-            // The attack cycle of the slash is the same as that of Artemis and Apollo, to ensure that they don't drift and cause unavoidable hits.
-            int attackCycleTime = ExoTwinsSpinTime + ExoTwinsSpinSlowdownTime + ExoTwinsDashTime;
+            int attackCycleTime = (int)((ExoTwinsSpinTime + ExoTwinsSpinSlowdownTime + ExoTwinsDashTime) * 1.5f);
             bool armsAreDetaching = AITimer <= AresBodyBehavior.DetachHands_DetachmentDelay;
             float animationCompletion = (AITimer - AresBodyBehavior.DetachHands_DetachmentDelay) / (float)attackCycleTime % 1f;
             float riseUpwardInterpolant = LumUtils.InverseLerp(0f, 0.55f, animationCompletion);
@@ -146,9 +145,11 @@ namespace WoTM.Content.NPCs.ExoMechs.ComboAttacks.Mayhem
                     riseOffset = 250f;
                 if (Target.velocity.Y < 0f)
                     riseOffset -= Target.velocity.Y * 24f;
-                float horizontalOffset = Target.velocity.X * 18f;
+                float horizontalOffset = Target.velocity.X * 7.2f;
 
-                npc.SmoothFlyNear(Target.Center + new Vector2(horizontalOffset, -riseOffset), 0.1f, 0.9f);
+                Vector2 predictedCenter = Target.Center + new Vector2(horizontalOffset, -riseOffset);
+                npc.SmoothFlyNear(predictedCenter, 0.1f, 0.9f);
+                npc.velocity.X += npc.HorizontalDirectionTo(predictedCenter);
             }
             else if (riseUpwardInterpolant < 1f)
                 npc.velocity.Y *= 0.8f;
