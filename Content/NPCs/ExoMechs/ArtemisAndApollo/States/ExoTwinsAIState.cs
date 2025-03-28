@@ -1,24 +1,23 @@
 ﻿using WoTM.Content.NPCs.ExoMechs.ComboAttacks;
 
-namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.States
+namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.States;
+
+public enum ExoTwinsAIState
 {
-    public enum ExoTwinsAIState
-    {
-        SpawnAnimation,
-        DashesAndLasers,
-        CloseShots,
-        MachineGunLasers,
-        ExothermalOverload,
+    SpawnAnimation,
+    DashesAndLasers,
+    CloseShots,
+    MachineGunLasers,
+    ExothermalOverload,
 
-        Inactive,
-        Leave,
+    Inactive,
+    Leave,
 
-        EnterSecondPhase,
+    EnterSecondPhase,
 
-        DeathAnimation,
+    DeathAnimation,
 
-        PerformIndividualAttacks,
+    PerformIndividualAttacks,
 
-        PerformComboAttack = ExoMechComboAttackManager.ComboAttackValue
-    }
+    PerformComboAttack = ExoMechComboAttackManager.ComboAttackValue
 }

@@ -8,38 +8,37 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using WoTM.Content.NPCs.ExoMechs.Projectiles;
 
-namespace WoTM.Content.NPCs.ExoMechs.GraphicsReplacements
+namespace WoTM.Content.NPCs.ExoMechs.GraphicsReplacements;
+
+public class CodebreakerProjectileReplacer : ModSystem
 {
-    public class CodebreakerProjectileReplacer : ModSystem
+    private static readonly MethodInfo? handleDraedonSummoningMethod = typeof(WorldMiscUpdateSystem).GetMethod("HandleDraedonSummoning", LumUtils.UniversalBindingFlags);
+
+    public delegate void Orig_ExoMechSelectionUIDraw();
+
+    public override void OnModLoad()
     {
-        private static readonly MethodInfo? handleDraedonSummoningMethod = typeof(WorldMiscUpdateSystem).GetMethod("HandleDraedonSummoning", LumUtils.UniversalBindingFlags);
+        if (handleDraedonSummoningMethod is null)
+            return;
 
-        public delegate void Orig_ExoMechSelectionUIDraw();
+        HookHelper.ModifyMethodWithDetour(handleDraedonSummoningMethod, HandleSummonBehaviors);
+    }
 
-        public override void OnModLoad()
+    /// <summary>
+    /// Handles custom summon behaviors for Draedon.
+    /// </summary>
+    public static void HandleSummonBehaviors(Orig_ExoMechSelectionUIDraw orig)
+    {
+        if (CalamityWorld.DraedonSummonCountdown == CalamityWorld.DraedonSummonCountdownMax - 45)
         {
-            if (handleDraedonSummoningMethod is null)
-                return;
-
-            HookHelper.ModifyMethodWithDetour(handleDraedonSummoningMethod, HandleSummonBehaviors);
+            IEntitySource source = new EntitySource_WorldEvent();
+            Projectile.NewProjectile(source, CalamityWorld.DraedonSummonPosition + new Vector2(6f, 56f), -Vector2.UnitY, ModContent.ProjectileType<CodebreakerDataStream>(), 0, 0f);
         }
 
-        /// <summary>
-        /// Handles custom summon behaviors for Draedon.
-        /// </summary>
-        public static void HandleSummonBehaviors(Orig_ExoMechSelectionUIDraw orig)
+        if (CalamityWorld.DraedonSummonCountdown == 0)
         {
-            if (CalamityWorld.DraedonSummonCountdown == CalamityWorld.DraedonSummonCountdownMax - 45)
-            {
-                IEntitySource source = new EntitySource_WorldEvent();
-                Projectile.NewProjectile(source, CalamityWorld.DraedonSummonPosition + new Vector2(6f, 56f), -Vector2.UnitY, ModContent.ProjectileType<CodebreakerDataStream>(), 0, 0f);
-            }
-
-            if (CalamityWorld.DraedonSummonCountdown == 0)
-            {
-                IEntitySource source = new EntitySource_WorldEvent();
-                NPC.NewNPC(source, (int)CalamityWorld.DraedonSummonPosition.X, (int)CalamityWorld.DraedonSummonPosition.Y, ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Draedon>());
-            }
+            IEntitySource source = new EntitySource_WorldEvent();
+            NPC.NewNPC(source, (int)CalamityWorld.DraedonSummonPosition.X, (int)CalamityWorld.DraedonSummonPosition.Y, ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Draedon>());
         }
     }
 }

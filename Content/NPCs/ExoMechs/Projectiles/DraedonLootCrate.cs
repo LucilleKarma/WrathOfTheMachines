@@ -5,46 +5,45 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace WoTM.Content.NPCs.ExoMechs.Projectiles
+namespace WoTM.Content.NPCs.ExoMechs.Projectiles;
+
+public class DraedonLootCrate : ModProjectile, IProjOwnedByBoss<CalamityMod.NPCs.ExoMechs.Draedon>
 {
-    public class DraedonLootCrate : ModProjectile, IProjOwnedByBoss<CalamityMod.NPCs.ExoMechs.Draedon>
+    /// <summary>
+    /// The player that shall receive the spoils of this loot crate.
+    /// </summary>
+    public Player Recipient => Main.player[Projectile.owner];
+
+    /// <summary>
+    /// How long this loot crate has existed, in frames.
+    /// </summary>
+    public ref float Time => ref Projectile.ai[0];
+
+    public override void SetDefaults()
     {
-        /// <summary>
-        /// The player that shall receive the spoils of this loot crate.
-        /// </summary>
-        public Player Recipient => Main.player[Projectile.owner];
+        Projectile.width = 46;
+        Projectile.height = 54;
+        Projectile.penetrate = -1;
+        Projectile.tileCollide = false;
+        Projectile.ignoreWater = true;
+        Projectile.timeLeft = 3600;
+        CooldownSlot = ImmunityCooldownID.Bosses;
+    }
 
-        /// <summary>
-        /// How long this loot crate has existed, in frames.
-        /// </summary>
-        public ref float Time => ref Projectile.ai[0];
+    public override void AI()
+    {
+        Time++;
 
-        public override void SetDefaults()
+        Projectile.Opacity = LumUtils.InverseLerp(0f, 45f, Time);
+        Projectile.Center = new Vector2(Recipient.Center.X, Projectile.Center.Y);
+        Projectile.velocity.Y = MathHelper.Lerp(Projectile.velocity.Y, 24f, 0.006f);
+
+        if (Projectile.WithinRange(Recipient.Center, 25f))
         {
-            Projectile.width = 46;
-            Projectile.height = 54;
-            Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
-            Projectile.timeLeft = 3600;
-            CooldownSlot = ImmunityCooldownID.Bosses;
-        }
+            if (Main.myPlayer == Projectile.owner)
+                Item.NewItem(Projectile.GetSource_FromThis(), Recipient.Hitbox, ModContent.ItemType<DraedonBag>(), noGrabDelay: true);
 
-        public override void AI()
-        {
-            Time++;
-
-            Projectile.Opacity = LumUtils.InverseLerp(0f, 45f, Time);
-            Projectile.Center = new Vector2(Recipient.Center.X, Projectile.Center.Y);
-            Projectile.velocity.Y = MathHelper.Lerp(Projectile.velocity.Y, 24f, 0.006f);
-
-            if (Projectile.WithinRange(Recipient.Center, 25f))
-            {
-                if (Main.myPlayer == Projectile.owner)
-                    Item.NewItem(Projectile.GetSource_FromThis(), Recipient.Hitbox, ModContent.ItemType<DraedonBag>(), noGrabDelay: true);
-
-                Projectile.Kill();
-            }
+            Projectile.Kill();
         }
     }
 }

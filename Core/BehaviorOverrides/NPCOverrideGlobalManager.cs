@@ -9,158 +9,157 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using WoTM.Core.CrossCompatibility;
 
-namespace WoTM.Core.BehaviorOverrides
+namespace WoTM.Core.BehaviorOverrides;
+
+public class NPCOverrideGlobalManager : GlobalNPC
 {
-    public class NPCOverrideGlobalManager : GlobalNPC
+    private bool justSpawned;
+
+    /// <summary>
+    /// The relationship of NPC ID to corresponding override.
+    /// </summary>
+    internal static readonly Dictionary<int, NPCBehaviorOverride> NPCOverrideRelationship = [];
+
+    /// <summary>
+    /// The behavior override that governs the behavior of a given NPC.
+    /// </summary>
+    internal NPCBehaviorOverride? BehaviorOverride;
+
+    /// <summary>
+    /// Whether override effects are permitted by this mod.
+    /// </summary>
+    internal static bool OverridesPermitted
     {
-        private bool justSpawned;
-
-        /// <summary>
-        /// The relationship of NPC ID to corresponding override.
-        /// </summary>
-        internal static readonly Dictionary<int, NPCBehaviorOverride> NPCOverrideRelationship = [];
-
-        /// <summary>
-        /// The behavior override that governs the behavior of a given NPC.
-        /// </summary>
-        internal NPCBehaviorOverride? BehaviorOverride;
-
-        /// <summary>
-        /// Whether override effects are permitted by this mod.
-        /// </summary>
-        internal static bool OverridesPermitted
+        get
         {
-            get
-            {
-                // Fargos DLC already reworks the Exo Mechs (in extremely similar structure to the WoTM version).
-                // Let the player experience the DLC version if it's enabled.
-                if (FargosCompatibility.EternityModeIsActive && FargosCompatibility.FargosDLC is not null)
-                    return false;
-
-                return true;
-            }
-        }
-
-        public override bool InstancePerEntity => true;
-
-        public override void SetDefaults(NPC entity)
-        {
-            if (!OverridesPermitted)
-                return;
-
-            BehaviorOverride?.SetDefaults();
-        }
-
-        public override void SetBestiary(NPC npc, BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            if (NPCOverrideRelationship.TryGetValue(npc.type, out NPCBehaviorOverride? behaviorOverride))
-                behaviorOverride?.SetBestiary(database, bestiaryEntry);
-        }
-
-        public override bool PreAI(NPC npc)
-        {
-            if (!justSpawned && OverridesPermitted && NPCOverrideRelationship.TryGetValue(npc.type, out NPCBehaviorOverride? behaviorOverride))
-            {
-                BehaviorOverride = behaviorOverride!.Clone(npc);
-                BehaviorOverride.OnSpawn(new EntitySource_WorldEvent());
-                justSpawned = true;
-            }
-
-            if (OverridesPermitted && BehaviorOverride is not null)
-            {
-                BehaviorOverride.AI();
+            // Fargos DLC already reworks the Exo Mechs (in extremely similar structure to the WoTM version).
+            // Let the player experience the DLC version if it's enabled.
+            if (FargosCompatibility.EternityModeIsActive && FargosCompatibility.FargosDLC is not null)
                 return false;
-            }
 
             return true;
         }
+    }
 
-        public override void FindFrame(NPC npc, int frameHeight)
+    public override bool InstancePerEntity => true;
+
+    public override void SetDefaults(NPC entity)
+    {
+        if (!OverridesPermitted)
+            return;
+
+        BehaviorOverride?.SetDefaults();
+    }
+
+    public override void SetBestiary(NPC npc, BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+    {
+        if (NPCOverrideRelationship.TryGetValue(npc.type, out NPCBehaviorOverride? behaviorOverride))
+            behaviorOverride?.SetBestiary(database, bestiaryEntry);
+    }
+
+    public override bool PreAI(NPC npc)
+    {
+        if (!justSpawned && OverridesPermitted && NPCOverrideRelationship.TryGetValue(npc.type, out NPCBehaviorOverride? behaviorOverride))
         {
-            if (!OverridesPermitted)
-                return;
-
-            BehaviorOverride?.FindFrame(frameHeight);
+            BehaviorOverride = behaviorOverride!.Clone(npc);
+            BehaviorOverride.OnSpawn(new EntitySource_WorldEvent());
+            justSpawned = true;
         }
 
-        public override void BossHeadSlot(NPC npc, ref int index)
+        if (OverridesPermitted && BehaviorOverride is not null)
         {
-            if (!OverridesPermitted)
-                return;
-
-            BehaviorOverride?.BossHeadSlot(ref index);
+            BehaviorOverride.AI();
+            return false;
         }
 
-        public override void ModifyTypeName(NPC npc, ref string typeName)
-        {
-            if (!OverridesPermitted)
-                return;
+        return true;
+    }
 
-            BehaviorOverride?.ModifyTypeName(ref typeName);
-        }
+    public override void FindFrame(NPC npc, int frameHeight)
+    {
+        if (!OverridesPermitted)
+            return;
 
-        public override bool PreKill(NPC npc)
-        {
-            if (!OverridesPermitted)
-                return true;
+        BehaviorOverride?.FindFrame(frameHeight);
+    }
 
-            if (!(BehaviorOverride?.PreKill() ?? true))
-                return false;
+    public override void BossHeadSlot(NPC npc, ref int index)
+    {
+        if (!OverridesPermitted)
+            return;
 
-            BehaviorOverride?.OnKill();
+        BehaviorOverride?.BossHeadSlot(ref index);
+    }
+
+    public override void ModifyTypeName(NPC npc, ref string typeName)
+    {
+        if (!OverridesPermitted)
+            return;
+
+        BehaviorOverride?.ModifyTypeName(ref typeName);
+    }
+
+    public override bool PreKill(NPC npc)
+    {
+        if (!OverridesPermitted)
             return true;
-        }
 
-        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
-        {
-            if (!OverridesPermitted)
-                return;
+        if (!(BehaviorOverride?.PreKill() ?? true))
+            return false;
 
-            BehaviorOverride?.ModifyNPCLoot(npcLoot);
-        }
+        BehaviorOverride?.OnKill();
+        return true;
+    }
 
-        public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter) => BehaviorOverride?.SendExtraAI(bitWriter, binaryWriter);
+    public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+    {
+        if (!OverridesPermitted)
+            return;
 
-        public override void ReceiveExtraAI(NPC npc, BitReader bitReader, BinaryReader binaryReader) => BehaviorOverride?.ReceiveExtraAI(bitReader, binaryReader);
+        BehaviorOverride?.ModifyNPCLoot(npcLoot);
+    }
 
-        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (!OverridesPermitted)
-                return;
+    public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter) => BehaviorOverride?.SendExtraAI(bitWriter, binaryWriter);
 
-            BehaviorOverride?.ModifyHitByProjectile(projectile, ref modifiers);
-        }
+    public override void ReceiveExtraAI(NPC npc, BitReader bitReader, BinaryReader binaryReader) => BehaviorOverride?.ReceiveExtraAI(bitReader, binaryReader);
 
-        public override Color? GetAlpha(NPC npc, Color drawColor)
-        {
-            if (OverridesPermitted && BehaviorOverride is not null)
-                return BehaviorOverride.GetAlpha(drawColor);
+    public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
+    {
+        if (!OverridesPermitted)
+            return;
 
-            return null;
-        }
+        BehaviorOverride?.ModifyHitByProjectile(projectile, ref modifiers);
+    }
 
-        public override void HitEffect(NPC npc, NPC.HitInfo hit)
-        {
-            if (!OverridesPermitted)
-                return;
+    public override Color? GetAlpha(NPC npc, Color drawColor)
+    {
+        if (OverridesPermitted && BehaviorOverride is not null)
+            return BehaviorOverride.GetAlpha(drawColor);
 
-            BehaviorOverride?.HitEffect(hit);
-        }
+        return null;
+    }
 
-        public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-        {
-            if (!OverridesPermitted || npc.IsABestiaryIconDummy)
-                return true;
+    public override void HitEffect(NPC npc, NPC.HitInfo hit)
+    {
+        if (!OverridesPermitted)
+            return;
 
-            return BehaviorOverride?.PreDraw(spriteBatch, screenPos, drawColor) ?? true;
-        }
+        BehaviorOverride?.HitEffect(hit);
+    }
 
-        public override bool CheckDead(NPC npc)
-        {
-            if (!OverridesPermitted)
-                return true;
+    public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+    {
+        if (!OverridesPermitted || npc.IsABestiaryIconDummy)
+            return true;
 
-            return BehaviorOverride?.CheckDead() ?? true;
-        }
+        return BehaviorOverride?.PreDraw(spriteBatch, screenPos, drawColor) ?? true;
+    }
+
+    public override bool CheckDead(NPC npc)
+    {
+        if (!OverridesPermitted)
+            return true;
+
+        return BehaviorOverride?.CheckDead() ?? true;
     }
 }

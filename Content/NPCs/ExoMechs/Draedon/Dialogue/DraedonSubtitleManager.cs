@@ -4,83 +4,82 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue
+namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue;
+
+public class DraedonSubtitleManager : ModSystem
 {
-    public class DraedonSubtitleManager : ModSystem
+    private static LoopedSoundInstance subtitleLoop;
+
+    internal static int SequenceTimer;
+
+    /// <summary>
+    /// The current dialogue instance that's being played.
+    /// </summary>
+    ///
+    /// <remarks>
+    /// Defaults to null, indicating that nothing is being played.
+    /// </remarks>
+    public static DraedonDialogue? CurrentSequence
     {
-        private static LoopedSoundInstance subtitleLoop;
+        get;
+        private set;
+    }
 
-        internal static int SequenceTimer;
-
-        /// <summary>
-        /// The current dialogue instance that's being played.
-        /// </summary>
-        ///
-        /// <remarks>
-        /// Defaults to null, indicating that nothing is being played.
-        /// </remarks>
-        public static DraedonDialogue? CurrentSequence
+    public override void UpdateUI(GameTime gameTime)
+    {
+        if (!DraedonDialogueManager.UseSubtitles || !NPC.AnyNPCs(ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Draedon>()))
         {
-            get;
-            private set;
+            Stop();
+            return;
         }
 
-        public override void UpdateUI(GameTime gameTime)
+        if (subtitleLoop is not null && SoundEngine.TryGetActiveSound(subtitleLoop.LoopingSoundSlot, out ActiveSound? sound))
         {
-            if (!DraedonDialogueManager.UseSubtitles || !NPC.AnyNPCs(ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Draedon>()))
-            {
-                Stop();
-                return;
-            }
-
-            if (subtitleLoop is not null && SoundEngine.TryGetActiveSound(subtitleLoop.LoopingSoundSlot, out ActiveSound? sound))
-            {
-                if (Main.gamePaused && sound.IsPlaying)
-                    sound.Pause();
-                if (!Main.gamePaused && !sound.IsPlaying)
-                    sound.Resume();
-            }
-
-            if (CurrentSequence is null)
-            {
-                Stop();
-                return;
-            }
-
-            subtitleLoop?.Update(Main.screenPosition + Main.ScreenSize.ToVector2() * 0.5f);
+            if (Main.gamePaused && sound.IsPlaying)
+                sound.Pause();
+            if (!Main.gamePaused && !sound.IsPlaying)
+                sound.Resume();
         }
 
-        /// <summary>
-        /// Stops the current sequence, resetting everything.
-        /// </summary>
-        public static void Stop()
+        if (CurrentSequence is null)
         {
-            CurrentSequence = null;
-            SequenceTimer = 0;
+            Stop();
+            return;
+        }
+
+        subtitleLoop?.Update(Main.screenPosition + Main.ScreenSize.ToVector2() * 0.5f);
+    }
+
+    /// <summary>
+    /// Stops the current sequence, resetting everything.
+    /// </summary>
+    public static void Stop()
+    {
+        CurrentSequence = null;
+        SequenceTimer = 0;
+        subtitleLoop?.Stop();
+        subtitleLoop = null;
+    }
+
+    /// <summary>
+    /// Prepares a given subtitle for playing and display.
+    /// </summary>
+    /// <param name="time">The relative play timer for the subtitles.</param>
+    /// <param name="subtitle">The subtitles to display.</param>
+    public static void Play(int time, DraedonDialogue subtitle)
+    {
+        if (time < 0)
+            return;
+
+        SequenceTimer = time;
+        if (CurrentSequence != subtitle)
+        {
+            CurrentSequence = subtitle;
             subtitleLoop?.Stop();
-            subtitleLoop = null;
-        }
 
-        /// <summary>
-        /// Prepares a given subtitle for playing and display.
-        /// </summary>
-        /// <param name="time">The relative play timer for the subtitles.</param>
-        /// <param name="subtitle">The subtitles to display.</param>
-        public static void Play(int time, DraedonDialogue subtitle)
-        {
-            if (time < 0)
-                return;
-
-            SequenceTimer = time;
-            if (CurrentSequence != subtitle)
-            {
-                CurrentSequence = subtitle;
-                subtitleLoop?.Stop();
-
-                string path = subtitle.Subtitle.SoundPath.Replace(".wav", "");
-                subtitleLoop = LoopedSoundManager.CreateNew(new SoundStyle("WoTM/" + path) with { Volume = 2f }, () => CurrentSequence is null);
-                subtitleLoop.Update(Main.screenPosition + Main.ScreenSize.ToVector2() * 0.5f, s => s.Volume = 2.3f);
-            }
+            string path = subtitle.Subtitle.SoundPath.Replace(".wav", "");
+            subtitleLoop = LoopedSoundManager.CreateNew(new SoundStyle("WoTM/" + path) with { Volume = 2f }, () => CurrentSequence is null);
+            subtitleLoop.Update(Main.screenPosition + Main.ScreenSize.ToVector2() * 0.5f, s => s.Volume = 2.3f);
         }
     }
 }

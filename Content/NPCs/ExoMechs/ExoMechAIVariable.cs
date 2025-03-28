@@ -1,10 +1,9 @@
-﻿namespace WoTM.Content.NPCs.ExoMechs
+﻿namespace WoTM.Content.NPCs.ExoMechs;
+
+public enum ExoMechAIVariableType
 {
-    public enum ExoMechAIVariableType
-    {
-        Ares,
-        Twins,
-        Hades,
-        Combo
-    }
+    Ares,
+    Twins,
+    Hades,
+    Combo
 }

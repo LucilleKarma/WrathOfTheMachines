@@ -2,21 +2,20 @@
 using Terraria;
 using WoTM.Core.BehaviorOverrides;
 
-namespace WoTM.Content.NPCs.ExoMechs.Ares
+namespace WoTM.Content.NPCs.ExoMechs.Ares;
+
+public sealed partial class AresBodyBehavior : NPCBehaviorOverride
 {
-    public sealed partial class AresBodyBehavior : NPCBehaviorOverride
+    public void DoBehavior_ReturnToBeingActive()
     {
-        public void DoBehavior_ReturnToBeingActive()
-        {
-            ZPosition = MathHelper.Clamp(ZPosition - 0.07f, 0f, 10f);
-            NPC.velocity *= 0.85f;
-            NPC.dontTakeDamage = true;
-            NPC.damage = 0;
+        ZPosition = MathHelper.Clamp(ZPosition - 0.07f, 0f, 10f);
+        NPC.velocity *= 0.85f;
+        NPC.dontTakeDamage = true;
+        NPC.damage = 0;
 
-            BasicHandUpdateWrapper();
+        BasicHandUpdateWrapper();
 
-            if (!Inactive && ZPosition <= 0f)
-                SelectNewState();
-        }
+        if (!Inactive && ZPosition <= 0f)
+            SelectNewState();
     }
 }

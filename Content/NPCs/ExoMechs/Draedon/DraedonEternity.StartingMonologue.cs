@@ -4,49 +4,48 @@ using Microsoft.Xna.Framework;
 using WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue;
 using WoTM.Core.BehaviorOverrides;
 
-namespace WoTM.Content.NPCs.ExoMechs.Draedon
+namespace WoTM.Content.NPCs.ExoMechs.Draedon;
+
+public sealed partial class DraedonBehavior : NPCBehaviorOverride
 {
-    public sealed partial class DraedonBehavior : NPCBehaviorOverride
+    /// <summary>
+    /// The monologue that Draedon should use at the start of the battle. Once he's been spoken to, his dialogue is a lot lighter.
+    /// </summary>
+    public static DraedonDialogueChain StartingMonologueToUse => CalamityWorld.TalkedToDraedon ? StartingMonologueBrief : StartingMonologue;
+
+    /// <summary>
+    /// The AI method that makes Draedon speak to the player before the battle.
+    /// </summary>
+    public void DoBehavior_StartingMonologue()
     {
-        /// <summary>
-        /// The monologue that Draedon should use at the start of the battle. Once he's been spoken to, his dialogue is a lot lighter.
-        /// </summary>
-        public static DraedonDialogueChain StartingMonologueToUse => CalamityWorld.TalkedToDraedon ? StartingMonologueBrief : StartingMonologue;
+        int speakTimer = (int)AITimer - 90;
+        StartingMonologueToUse.Process(speakTimer);
 
-        /// <summary>
-        /// The AI method that makes Draedon speak to the player before the battle.
-        /// </summary>
-        public void DoBehavior_StartingMonologue()
+        bool playerHasSelectedExoMech = CalamityWorld.DraedonMechToSummon != ExoMech.None;
+        if (StartingMonologueToUse.Finished(speakTimer))
         {
-            int speakTimer = (int)AITimer - 90;
-            StartingMonologueToUse.Process(speakTimer);
-
-            bool playerHasSelectedExoMech = CalamityWorld.DraedonMechToSummon != ExoMech.None;
-            if (StartingMonologueToUse.Finished(speakTimer))
-            {
-                if (!playerHasSelectedExoMech)
-                    PlayerToFollow.Calamity().AbleToSelectExoMech = true;
-                else
-                    ChangeAIState(DraedonAIState.ExoMechSpawnAnimation);
-
-                // Mark Draedon as talked to.
-                if (!CalamityWorld.TalkedToDraedon)
-                {
-                    CalamityWorld.TalkedToDraedon = true;
-                    CalamityNetcode.SyncWorld();
-                }
-            }
-
-            if (Frame <= 10f)
-            {
-                if (FrameTimer % 7f == 6f)
-                {
-                    Frame++;
-                    FrameTimer = 0f;
-                }
-            }
+            if (!playerHasSelectedExoMech)
+                PlayerToFollow.Calamity().AbleToSelectExoMech = true;
             else
-                Frame = (int)MathHelper.Lerp(11f, 15f, FrameTimer / 30f % 1f);
+                ChangeAIState(DraedonAIState.ExoMechSpawnAnimation);
+
+            // Mark Draedon as talked to.
+            if (!CalamityWorld.TalkedToDraedon)
+            {
+                CalamityWorld.TalkedToDraedon = true;
+                CalamityNetcode.SyncWorld();
+            }
         }
+
+        if (Frame <= 10f)
+        {
+            if (FrameTimer % 7f == 6f)
+            {
+                Frame++;
+                FrameTimer = 0f;
+            }
+        }
+        else
+            Frame = (int)MathHelper.Lerp(11f, 15f, FrameTimer / 30f % 1f);
     }
 }

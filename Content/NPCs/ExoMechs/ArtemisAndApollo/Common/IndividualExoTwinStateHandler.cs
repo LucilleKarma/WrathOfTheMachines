@@ -1,60 +1,59 @@
 ﻿using System.IO;
 using WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.States;
 
-namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.Common
+namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo.Common;
+
+public class IndividualExoTwinStateHandler
 {
-    public class IndividualExoTwinStateHandler
+    /// <summary>
+    /// The AI timer used by the Exo Twin.
+    /// </summary>
+    public int AITimer;
+
+    /// <summary>
+    /// The current state that the Exo Twin is performing. This only applies if the Exo Twins are free to perform their own states.
+    /// </summary>
+    public ExoTwinsIndividualAIState AIState
     {
-        /// <summary>
-        /// The AI timer used by the Exo Twin.
-        /// </summary>
-        public int AITimer;
+        get;
+        set;
+    }
 
-        /// <summary>
-        /// The current state that the Exo Twin is performing. This only applies if the Exo Twins are free to perform their own states.
-        /// </summary>
-        public ExoTwinsIndividualAIState AIState
-        {
-            get;
-            set;
-        }
+    public IndividualExoTwinStateHandler(ExoTwinsIndividualAIState state)
+    {
+        AIState = state;
+    }
 
-        public IndividualExoTwinStateHandler(ExoTwinsIndividualAIState state)
-        {
-            AIState = state;
-        }
+    /// <summary>
+    /// Updates this state.
+    /// </summary>
+    public void Update() => AITimer++;
 
-        /// <summary>
-        /// Updates this state.
-        /// </summary>
-        public void Update() => AITimer++;
+    /// <summary>
+    /// Resets all mutable data for this state in anticipation of a different one.
+    /// </summary>
+    public void Reset()
+    {
+        AITimer = 0;
+    }
 
-        /// <summary>
-        /// Resets all mutable data for this state in anticipation of a different one.
-        /// </summary>
-        public void Reset()
-        {
-            AITimer = 0;
-        }
+    /// <summary>
+    /// Writes this state to a <see cref="BinaryWriter"/> for the purposes of being sent across the network.
+    /// </summary>
+    /// <param name="writer">The binary writer.</param>
+    public void WriteTo(BinaryWriter writer)
+    {
+        writer.Write((int)AIState);
+        writer.Write(AITimer);
+    }
 
-        /// <summary>
-        /// Writes this state to a <see cref="BinaryWriter"/> for the purposes of being sent across the network.
-        /// </summary>
-        /// <param name="writer">The binary writer.</param>
-        public void WriteTo(BinaryWriter writer)
-        {
-            writer.Write((int)AIState);
-            writer.Write(AITimer);
-        }
-
-        /// <summary>
-        /// Reads a from a <see cref="BinaryReader"/> for the purposes of being received from across the network.
-        /// </summary>
-        /// <param name="reader">The binary reader.</param>
-        public void ReadFrom(BinaryReader reader)
-        {
-            AIState = (ExoTwinsIndividualAIState)reader.ReadInt32();
-            AITimer = reader.ReadInt32();
-        }
+    /// <summary>
+    /// Reads a from a <see cref="BinaryReader"/> for the purposes of being received from across the network.
+    /// </summary>
+    /// <param name="reader">The binary reader.</param>
+    public void ReadFrom(BinaryReader reader)
+    {
+        AIState = (ExoTwinsIndividualAIState)reader.ReadInt32();
+        AITimer = reader.ReadInt32();
     }
 }
