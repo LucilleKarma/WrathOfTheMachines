@@ -45,22 +45,6 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue
         {
             get
             {
-                /*
-                 * >Hey Dom uuh, could you make Dradong use standard font with Ru localization for now? Else I'm afraid all that will be displayed is asterisks once we translate his lines
-                 * 
-                 * >Didn't you say Cal's gonna make the font use a Cyrillic-friendly font instead for Draedon?
-                 * >This references Cal, so
-                 * 
-                 * >Yeah but
-                 * >That's gonna be added in SSO I'm afraid
-                 * 
-                 * 
-                 * 
-                 * 
-                 * 
-                 * 
-                 * TODO -- Yeah I dunno when that's releasing at this point. They make a decent point. Remove this whenever that happens. -Lucille
-                 */
                 if (GameCulture.FromCultureName(GameCulture.CultureName.Russian).IsActive)
                     return FontAssets.MouseText.Value;
 
