@@ -234,15 +234,15 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             {
                 apollo.FlameEngulfInterpolant = 1f;
 
-                npc.velocity *= 1.04f;
+                npc.velocity = (npc.velocity * 1.04f).ClampLength(0f, 100f);
                 npc.rotation = npc.rotation.AngleLerp(npc.velocity.ToRotation(), 0.4f);
                 npc.damage = npc.defDamage;
             }
 
             // Teleport back around after the dash.
-            if (wrappedAITimer >= spinTime + dashDelay + dashRepositionTime + dashTime)
+            if (wrappedAITimer >= spinTime + dashDelay + dashRepositionTime + dashTime - 1)
             {
-                npc.Center = Target.Center - Target.SafeDirectionTo(npc.Center) * 1600f;
+                npc.Center = Target.Center - Target.SafeDirectionTo(npc.Center) * 1320f;
                 npc.velocity *= 0.1f;
                 npc.oldPos = new Vector2[npc.oldPos.Length];
             }
