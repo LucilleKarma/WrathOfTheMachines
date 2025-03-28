@@ -264,7 +264,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
         /// <summary>
         /// An optional draw action that is applied to Ares' body after everything else when in use.
         /// </summary>
-        public Action OptionalDrawAction
+        public Action? OptionalDrawAction
         {
             get;
             set;
@@ -678,7 +678,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
         public static void ApplyNormalMapShader(Texture2D texture, Rectangle frame, bool cutOffAtTop, bool invertCutoff)
         {
             var teslaSpheres = LumUtils.AllProjectilesByID(ModContent.ProjectileType<LargeTeslaSphere>());
-            Projectile teslaSphere = teslaSpheres.FirstOrDefault();
+            Projectile? teslaSphere = teslaSpheres.FirstOrDefault();
             if (teslaSphere is null)
                 return;
 
