@@ -25,7 +25,7 @@ public class CustomExoMechsSky : CustomSky
 
         public void Update()
         {
-            Brightness = LumUtils.Saturate(Brightness * 0.991f - 0.0011f);
+            Brightness = MathHelper.Clamp(Brightness * 0.994f - 0.0011f, 0f, 2f);
         }
     }
 
@@ -187,10 +187,10 @@ public class CustomExoMechsSky : CustomSky
         Main.spriteBatch.Draw(cloud, drawPosition, null, cloudColor, 0f, cloud.Size() * 0.5f, skyScale, 0, 0f);
     }
 
-    public static void CreateLightning(Vector2? lightningPosition = null)
+    public static LightningData? CreateLightning(Vector2? lightningPosition = null)
     {
         if (Main.netMode == NetmodeID.Server || Main.gamePaused)
-            return;
+            return null;
 
         lightningPosition ??= new Vector2(Main.rand.NextFloat(0.2f, 0.8f), Main.rand.NextFloat(-0.07f, 0.9f));
 
@@ -200,9 +200,11 @@ public class CustomExoMechsSky : CustomSky
             {
                 Lightning[i].Brightness = Main.rand.NextFloat(0.6f, 0.72f);
                 Lightning[i].LightningPosition = lightningPosition.Value;
-                break;
+                return Lightning[i];
             }
         }
+
+        return null;
     }
 
     public override void Update(GameTime gameTime)

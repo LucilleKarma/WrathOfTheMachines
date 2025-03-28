@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using WoTM.Common.Utilities;
 using WoTM.Content.NPCs.ExoMechs.FightManagers;
 using WoTM.Content.NPCs.ExoMechs.Projectiles;
+using WoTM.Content.NPCs.ExoMechs.SpecificManagers;
 using WoTM.Content.Particles;
 
 namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo;
@@ -105,14 +106,24 @@ public static partial class ExoTwinsStates
 
             float energyChargeUpInterpolant = LumUtils.InverseLerp(0f, chargeUpTime, wrapperAITimer - hoverRedirectTime - slowDownTime);
 
-            if (Main.rand.NextBool(energyChargeUpInterpolant * 1.6f) && energyChargeUpInterpolant < 0.75f)
+            ScreenShakeSystem.StartShakeAtPoint(npc.Center, energyChargeUpInterpolant.Squared() * 5f);
+
+            for (int i = 0; i < 2; i++)
             {
-                Vector2 focusPoint = npc.Center + npc.rotation.ToRotationVector2() * 76f;
-                Vector2 energySpawnPosition = focusPoint + (Main.rand.NextVector2Unit() * new Vector2(200f, 540f)).RotatedBy(hoverOffsetAngle);
-                Vector2 energyVelocity = (focusPoint - energySpawnPosition).RotatedByRandom(MathHelper.Pi * 0.75f) * 0.07f;
-                BloomPixelParticle pixel = new(energySpawnPosition, energyVelocity, new(255, 255, 50), Color.OrangeRed, 60, Vector2.One * 3f, focusPoint, new Vector2(0.13f, 0.08f));
-                pixel.Spawn();
+                if (Main.rand.NextBool(energyChargeUpInterpolant * 1.6f) && energyChargeUpInterpolant < 0.75f)
+                {
+                    Vector2 focusPoint = npc.Center + npc.rotation.ToRotationVector2() * 76f;
+                    Vector2 spawnPosition = focusPoint + Main.rand.NextVector2Unit() * Main.rand.NextFloat(300f, 600f);
+                    LineStreakParticle streak = new LineStreakParticle(spawnPosition, (focusPoint - spawnPosition) * 0.08f, Color.Orange, 15, spawnPosition.AngleTo(focusPoint) + MathHelper.PiOver2, new Vector2(0.04f, 1f), new Vector2(0.04f, 1f));
+                    streak.Spawn();
+                }
             }
+            artemisAttributes.SpecificDrawAction = () =>
+            {
+                Vector2 start = npc.Center + npc.rotation.ToRotationVector2() * 76f;
+                Vector2 end = start + npc.rotation.ToRotationVector2() * 3000f;
+                DoBehavior_ExothermalOverload_ArtemisRenderTelegraphBeam(start, end, energyChargeUpInterpolant);
+            };
         }
 
         // Create a massive visual glean.
@@ -131,7 +142,14 @@ public static partial class ExoTwinsStates
         {
             SoundEngine.PlaySound(Artemis.SpinLaserbeamSound);
 
-            ScreenShakeSystem.StartShakeAtPoint(npc.Center, 16f, shakeStrengthDissipationIncrement: 0.6f);
+            for (int i = 0; i < 4; i++)
+            {
+                CustomExoMechsSky.LightningData? lightning = CustomExoMechsSky.CreateLightning();
+                if (lightning is not null)
+                    lightning.Brightness *= 1.81f;
+            }
+
+            ScreenShakeSystem.StartShakeAtPoint(npc.Center, 15f, shakeStrengthDissipationIncrement: 1.11f);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Vector2 left = (hoverOffsetAngle - MathHelper.PiOver2).ToRotationVector2();
@@ -146,7 +164,7 @@ public static partial class ExoTwinsStates
         // Move the laser forward.
         else if (wrapperAITimer >= hoverRedirectTime + slowDownTime + chargeUpTime + energyGleamTime)
         {
-            ScreenShakeSystem.SetUniversalRumble(2.3f, MathHelper.TwoPi, null, 0.2f);
+            ScreenShakeSystem.SetUniversalRumble(4f, MathHelper.TwoPi, null, 0.2f);
             npc.velocity = Vector2.Lerp(npc.velocity, moveDirection.ToRotationVector2() * 80f, 0.016f);
         }
 
@@ -252,6 +270,30 @@ public static partial class ExoTwinsStates
 
         if (apollo.FlameEngulfInterpolant >= 0.67f)
             DoBehavior_ExothermalOverload_ReleasePlasmaFireParticles(npc);
+    }
+
+    /// <summary>
+    /// Draws a projected ray on Artemis' pupil/central exo crystal for her part in the Exothermal Overload attack.
+    /// </summary>
+    public static void DoBehavior_ExothermalOverload_ArtemisRenderTelegraphBeam(Vector2 start, Vector2 end, float energyChargeUpInterpolant)
+    {
+        Vector2[] telegraphPoints = new Vector2[]
+        {
+            start,
+            Vector2.Lerp(start, end, 0.2f),
+            Vector2.Lerp(start, end, 0.4f),
+            Vector2.Lerp(start, end, 0.6f),
+            Vector2.Lerp(start, end, 0.8f),
+            end
+        };
+
+        float widthFunction(float _) => LumUtils.InverseLerpBump(0f, 0.24f, 0.9f, 1f, energyChargeUpInterpolant) * 5f;
+        Color colorFunction(float _) => new Color(255, 82, 10) * LumUtils.InverseLerpBump(0f, 0.1f, 0.9f, 1f, energyChargeUpInterpolant);
+
+        ManagedShader lineShader = ShaderManager.GetShader("WoTM.ArtemisPhotonRayTelegraphShader");
+        lineShader.SetTexture(MiscTexturesRegistry.WavyBlotchNoise.Value, 1, SamplerState.LinearWrap);
+
+        PrimitiveRenderer.RenderTrail(telegraphPoints, new PrimitiveSettings(widthFunction, colorFunction, Shader: lineShader), 41);
     }
 
     /// <summary>
