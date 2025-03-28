@@ -107,6 +107,6 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue
         }
 
         internal static string SoundPath(string relativePath) =>
-            $"WoTM/Assets/Sounds/Custom/VoiceActing/Drae_{relativePath}";
+            $"Assets/Sounds/Custom/VoiceActing/Drae_{relativePath}.wav";
     }
 }
