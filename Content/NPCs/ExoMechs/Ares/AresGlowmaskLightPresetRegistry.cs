@@ -33,9 +33,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             // Baby blue/light pink. You know the drill.
             RegisterNew(2f, () =>
             {
-                bool dominic = Main.LocalPlayer.name.Equals("Dominic", StringComparison.OrdinalIgnoreCase);
-                bool lucille = Main.LocalPlayer.name.Equals("Lucille", StringComparison.OrdinalIgnoreCase);
-                return dominic || lucille;
+                return Main.LocalPlayer.name.Equals("Lucille", StringComparison.OrdinalIgnoreCase);
             }, [Color.Cyan, new Color(5, 93, 241), Color.Violet, Color.Turquoise, Color.White]);
         }
 
