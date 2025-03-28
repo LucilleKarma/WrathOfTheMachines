@@ -13,6 +13,8 @@ namespace WoTM.Core.BehaviorOverrides
 {
     public class NPCOverrideGlobalManager : GlobalNPC
     {
+        private bool justSpawned;
+
         /// <summary>
         /// The relationship of NPC ID to corresponding override.
         /// </summary>
@@ -41,15 +43,6 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override bool InstancePerEntity => true;
 
-        public override void OnSpawn(NPC npc, IEntitySource source)
-        {
-            if (NPCOverrideRelationship.TryGetValue(npc.type, out NPCBehaviorOverride? behaviorOverride))
-            {
-                BehaviorOverride = behaviorOverride!.Clone(npc);
-                BehaviorOverride.OnSpawn(source);
-            }
-        }
-
         public override void SetDefaults(NPC entity)
         {
             if (!OverridesPermitted)
@@ -66,6 +59,13 @@ namespace WoTM.Core.BehaviorOverrides
 
         public override bool PreAI(NPC npc)
         {
+            if (!justSpawned && OverridesPermitted && NPCOverrideRelationship.TryGetValue(npc.type, out NPCBehaviorOverride? behaviorOverride))
+            {
+                BehaviorOverride = behaviorOverride!.Clone(npc);
+                BehaviorOverride.OnSpawn(new EntitySource_WorldEvent());
+                justSpawned = true;
+            }
+
             if (OverridesPermitted && BehaviorOverride is not null)
             {
                 BehaviorOverride.AI();
