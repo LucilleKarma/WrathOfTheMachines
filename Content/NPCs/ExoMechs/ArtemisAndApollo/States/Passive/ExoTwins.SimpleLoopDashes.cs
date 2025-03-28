@@ -51,8 +51,8 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             if (localAITimer >= 60)
                 npc.damage = npc.defDamage;
 
-            apolloAttributes.WingtipVorticesOpacity = Utilities.InverseLerp(16f, 32f, npc.velocity.Length());
-            apolloAttributes.ThrusterBoost = Utilities.InverseLerp(20f, 30f, npc.velocity.Length());
+            apolloAttributes.WingtipVorticesOpacity = LumUtils.InverseLerp(16f, 32f, npc.velocity.Length());
+            apolloAttributes.ThrusterBoost = LumUtils.InverseLerp(20f, 30f, npc.velocity.Length());
             apolloAttributes.Animation = ExoTwinAnimation.Attacking;
             apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(localAITimer / 40f % 1f, apolloAttributes.InPhase2);
         }

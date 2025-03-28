@@ -57,8 +57,8 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
         /// </summary>
         public void DoBehavior_BackgroundCoreLaserBeams()
         {
-            float enterBackgroundInterpolant = Utilities.InverseLerp(0f, 30f, AITimer);
-            float slowDownInterpolant = Utilities.InverseLerp(54f, 60f, AITimer);
+            float enterBackgroundInterpolant = LumUtils.InverseLerp(0f, 30f, AITimer);
+            float slowDownInterpolant = LumUtils.InverseLerp(54f, 60f, AITimer);
             bool doneAttacking = AITimer >= ExoOverloadDeathray.Lifetime;
             NPC.Center = Vector2.Lerp(NPC.Center, Target.Center - Vector2.UnitY * enterBackgroundInterpolant * 360f, enterBackgroundInterpolant * (1f - slowDownInterpolant) * 0.08f);
             NPC.Center = Vector2.Lerp(NPC.Center, new Vector2(Target.Center.X, NPC.Center.Y), slowDownInterpolant * 0.111f);
@@ -72,19 +72,19 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
                 SoundEngine.PlaySound(AresBody.LaserStartSound);
                 SoundEngine.PlaySound(LaughSound with { Volume = 10f });
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    Utilities.NewProjectileBetter(NPC.GetSource_FromAI(), CorePosition, Vector2.Zero, ModContent.ProjectileType<ExoOverloadDeathray>(), CoreLaserbeamDamage, 0f, -1);
+                    LumUtils.NewProjectileBetter(NPC.GetSource_FromAI(), CorePosition, Vector2.Zero, ModContent.ProjectileType<ExoOverloadDeathray>(), CoreLaserbeamDamage, 0f, -1);
             }
 
             if (AITimer == BackgroundCoreLaserBeams_LoopSoundDelay)
                 ExoOverloadLoopedSound = LoopedSoundManager.CreateNew(AresBody.LaserLoopSound, () => CurrentState != AresAIState.BackgroundCoreLaserBeams || !NPC.active);
 
-            var deathrays = Utilities.AllProjectilesByID(ModContent.ProjectileType<ExoOverloadDeathray>());
+            var deathrays = LumUtils.AllProjectilesByID(ModContent.ProjectileType<ExoOverloadDeathray>());
             if (deathrays.Any())
             {
                 Vector3 direction = Vector3.Transform(Vector3.UnitX, deathrays.First().As<ExoOverloadDeathray>().Rotation);
                 ExoOverloadLoopedSound?.Update(Target.Center, sound =>
                 {
-                    sound.Volume = Utilities.InverseLerp(0.8f, 0.42f, MathF.Abs(direction.X)) * 1.1f + 0.56f;
+                    sound.Volume = LumUtils.InverseLerp(0.8f, 0.42f, MathF.Abs(direction.X)) * 1.1f + 0.56f;
                 });
             }
 
@@ -105,11 +105,11 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
 
                     if (MathHelper.Distance(missileSpawnPosition.X, NPC.Center.X) >= 240f)
                     {
-                        Utilities.NewProjectileBetter(NPC.GetSource_FromAI(), missileSpawnPosition, Vector2.UnitY * 3f, ModContent.ProjectileType<AresMissile>(), MissileDamage, 0f, -1, Target.Bottom.Y);
+                        LumUtils.NewProjectileBetter(NPC.GetSource_FromAI(), missileSpawnPosition, Vector2.UnitY * 3f, ModContent.ProjectileType<AresMissile>(), MissileDamage, 0f, -1, Target.Bottom.Y);
 
                         Vector2 backgroundMissileVelocity = NPC.SafeDirectionTo(sparkSpawnPosition).RotatedByRandom(0.2f) * Main.rand.NextFloat(16f, 27f);
                         backgroundMissileVelocity.X *= 0.25f;
-                        Utilities.NewProjectileBetter(NPC.GetSource_FromAI(), sparkSpawnPosition, backgroundMissileVelocity, ModContent.ProjectileType<AresMissileBackground>(), 0, 0f);
+                        LumUtils.NewProjectileBetter(NPC.GetSource_FromAI(), sparkSpawnPosition, backgroundMissileVelocity, ModContent.ProjectileType<AresMissileBackground>(), 0, 0f);
                     }
                 }
             }

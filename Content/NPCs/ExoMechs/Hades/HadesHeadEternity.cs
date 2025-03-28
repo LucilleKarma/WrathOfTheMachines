@@ -406,7 +406,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             DisableMapIconLocally = false;
             SegmentReorientationStrength = MathHelper.Lerp(SegmentReorientationStrength, 1f, 0.03f);
             NPC.As<ThanatosHead>().SecondaryAIState = (int)ThanatosHead.SecondaryPhase.Nothing;
-            SegmentOpenInterpolant = Utilities.Saturate(SegmentOpenInterpolant + StandardSegmentOpenRate);
+            SegmentOpenInterpolant = LumUtils.Saturate(SegmentOpenInterpolant + StandardSegmentOpenRate);
             JawRotation = JawRotation.AngleLerp(0f, 0.01f).AngleTowards(0f, 0.02f);
             ReticleOpacity = MathHelper.Lerp(ReticleOpacity, 0f, 0.1f);
 
@@ -548,13 +548,13 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             return new(behaviorOverride =>
             {
                 float oldInterpolant = behaviorOverride.SegmentOpenInterpolant;
-                behaviorOverride.SegmentOpenInterpolant = Utilities.Saturate(behaviorOverride.SegmentOpenInterpolant + segmentOpenRate);
+                behaviorOverride.SegmentOpenInterpolant = LumUtils.Saturate(behaviorOverride.SegmentOpenInterpolant + segmentOpenRate);
 
                 bool segmentJustOpened = behaviorOverride.SegmentOpenInterpolant > 0f && oldInterpolant <= 0f;
                 if (segmentJustOpened)
                     SoundEngine.PlaySound(ThanatosHead.VentSound with { MaxInstances = 8, Volume = 0.3f }, behaviorOverride.NPC.Center);
 
-                float bigInterpolant = Utilities.InverseLerp(1f, 0.91f, behaviorOverride.SegmentOpenInterpolant);
+                float bigInterpolant = LumUtils.InverseLerp(1f, 0.91f, behaviorOverride.SegmentOpenInterpolant);
                 if (behaviorOverride.SegmentOpenInterpolant >= 0.91f && !Collision.SolidCollision(behaviorOverride.NPC.TopLeft, behaviorOverride.NPC.width, behaviorOverride.NPC.height))
                 {
                     CreateSmoke(behaviorOverride, bigInterpolant, smokeQuantityInterpolant);

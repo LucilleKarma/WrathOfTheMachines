@@ -115,12 +115,12 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             hand.ArmSide = (armIndex >= ArmCount / 2).ToDirectionInt();
             hand.HandType = AresHandType.EnergyKatana;
             hand.ArmEndpoint = handNPC.Center + handNPC.velocity;
-            hand.EnergyDrawer.chargeProgress = Utilities.InverseLerp(0f, 30f, AITimer);
+            hand.EnergyDrawer.chargeProgress = LumUtils.InverseLerp(0f, 30f, AITimer);
             hand.GlowmaskDisabilityInterpolant = 0f;
             hand.Frame = 0;
             handNPC.damage = katanasDoDamage ? KatanaDamage : 0;
             handNPC.spriteDirection = 1;
-            handNPC.Opacity = Utilities.Saturate(handNPC.Opacity + 0.3f);
+            handNPC.Opacity = LumUtils.Saturate(handNPC.Opacity + 0.3f);
 
             int animationTimer = (int)(AITimer + handNPC.whoAmI * attackCycleTime / (float)ArmCount - attackDelay) % attackCycleTime;
             KatanaSlashesHandUpdate_HandleSlashMotion(hand, handNPC, hoverOffset, attackDelay, animationTimer, attackCycleTime);
@@ -144,7 +144,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             // Bear in mind that the motion resulting from the easing curve in this function is not followed exactly, it's only closely
             // followed via the SmoothFlyNear function below. This gives the motion a slightly jerky, mechanical feel to it, which is well in
             // line with Ares.
-            float rotateForwardInterpolant = Utilities.InverseLerpBump(0.1f, AnticipationCurveEnd * 1.1f, 0.9f, 1f, animationCompletion).Squared();
+            float rotateForwardInterpolant = LumUtils.InverseLerpBump(0.1f, AnticipationCurveEnd * 1.1f, 0.9f, 1f, animationCompletion).Squared();
             if (AITimer >= attackDelay)
             {
                 if (animationTimer == (int)(attackCycleTime * AnticipationCurveEnd) + 3)

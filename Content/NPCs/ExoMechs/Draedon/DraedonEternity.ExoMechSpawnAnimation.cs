@@ -30,22 +30,22 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon
         /// <summary>
         /// How long it takes for the siren blare to appear.
         /// </summary>
-        public static int SirenDelay => Utilities.SecondsToFrames(1.5f);
+        public static int SirenDelay => LumUtils.SecondsToFrames(1.5f);
 
         /// <summary>
         /// How long the siren blare spends fading in.
         /// </summary>
-        public static int SirenFadeInTime => Utilities.SecondsToFrames(0.6f);
+        public static int SirenFadeInTime => LumUtils.SecondsToFrames(0.6f);
 
         /// <summary>
         /// How long Draedon waits before summoning the first Exo Mech.
         /// </summary>
-        public static int ExoMechSummonDelay => Utilities.SecondsToFrames(DraedonDialogueManager.UseSubtitles && !CalamityWorld.TalkedToDraedon ? 8.5f : 2.5f);
+        public static int ExoMechSummonDelay => LumUtils.SecondsToFrames(DraedonDialogueManager.UseSubtitles && !CalamityWorld.TalkedToDraedon ? 8.5f : 2.5f);
 
         /// <summary>
         /// How long the cargo plane spends flying overhead.
         /// </summary>
-        public static int ExoMechPlaneFlyTime => Utilities.SecondsToFrames(1f);
+        public static int ExoMechPlaneFlyTime => LumUtils.SecondsToFrames(1f);
 
         /// <summary>
         /// The siren sound played as the Exo Mechs wait to be summoned.
@@ -91,14 +91,14 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon
             });
             SirenSoundInstance.Update(Main.LocalPlayer.Center, sound =>
             {
-                sound.Volume = Utilities.InverseLerp(0f, SirenFadeInTime, AITimer) * Utilities.InverseLerp(30f, 0f, AITimer - ExoMechPlaneFlyTime - ExoMechSummonDelay);
+                sound.Volume = LumUtils.InverseLerp(0f, SirenFadeInTime, AITimer) * LumUtils.InverseLerp(30f, 0f, AITimer - ExoMechPlaneFlyTime - ExoMechSummonDelay);
                 if (DraedonDialogueManager.UseSubtitles)
                     sound.Volume *= 0.5f;
             });
 
-            MaxSkyOpacity = Utilities.Saturate(MaxSkyOpacity + 0.05f);
-            PlaneFlyForwardInterpolant = Utilities.InverseLerp(0f, ExoMechPlaneFlyTime, AITimer - ExoMechSummonDelay);
-            CustomExoMechsSky.RedSirensIntensity = MathF.Pow(Utilities.Sin01(MathHelper.TwoPi * (AITimer - SirenDelay) / 240f), 0.7f) * (1f - PlaneFlyForwardInterpolant) * 0.7f;
+            MaxSkyOpacity = LumUtils.Saturate(MaxSkyOpacity + 0.05f);
+            PlaneFlyForwardInterpolant = LumUtils.InverseLerp(0f, ExoMechPlaneFlyTime, AITimer - ExoMechSummonDelay);
+            CustomExoMechsSky.RedSirensIntensity = MathF.Pow(LumUtils.Sin01(MathHelper.TwoPi * (AITimer - SirenDelay) / 240f), 0.7f) * (1f - PlaneFlyForwardInterpolant) * 0.7f;
 
             if (PlaneFlyForwardInterpolant >= 1f)
             {

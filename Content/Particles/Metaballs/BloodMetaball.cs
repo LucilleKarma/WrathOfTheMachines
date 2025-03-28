@@ -82,7 +82,7 @@ namespace WoTM.Content.Particles.Metaballs
             foreach (var particle in darknessOrderedParticles)
             {
                 float darknessInterpolant = particle.ExtraInfo[0];
-                float dissolveInterpolant = Utilities.InverseLerp(2f, 78f, particle.Size);
+                float dissolveInterpolant = LumUtils.InverseLerp(2f, 78f, particle.Size);
                 float squish = particle.Velocity.Length() * 0.035f;
                 if (squish > 0.67f)
                     squish = 0.67f;

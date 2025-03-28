@@ -32,7 +32,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon
 
             if (dialogue.Finished(speakTimer))
             {
-                HologramOverlayInterpolant = Utilities.Saturate(HologramOverlayInterpolant + 0.04f);
+                HologramOverlayInterpolant = LumUtils.Saturate(HologramOverlayInterpolant + 0.04f);
                 MaxSkyOpacity = 1f - HologramOverlayInterpolant;
                 if (HologramOverlayInterpolant >= 1f)
                     NPC.active = false;

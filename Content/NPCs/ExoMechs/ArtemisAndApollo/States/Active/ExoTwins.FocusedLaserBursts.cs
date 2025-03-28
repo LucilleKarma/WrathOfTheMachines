@@ -84,7 +84,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 ScreenShakeSystem.SetUniversalRumble((wrappedAITimer / (float)FocusedLaserBursts_ChargeUpTime).Cubed() * 0.5f, MathHelper.TwoPi, null, 0.2f);
 
                 float chargeUpCompletion = wrappedAITimer / (float)FocusedLaserBursts_ChargeUpTime;
-                float particleSpawnChance = Utilities.InverseLerp(0f, 0.85f, chargeUpCompletion).Squared();
+                float particleSpawnChance = LumUtils.InverseLerp(0f, 0.85f, chargeUpCompletion).Squared();
                 Vector2 aimDirection = npc.rotation.ToRotationVector2();
                 Vector2 pupilPosition = npc.Center + aimDirection * 72f;
                 for (int i = 0; i < 3; i++)
@@ -136,7 +136,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             if (AITimer % FocusedLaserBursts_RapidShotRate == FocusedLaserBursts_RapidShotRate - 1)
                 ShootArtemisLaser(npc, FocusedLaserBursts_RapidShotShootSpeed);
 
-            artemisAttributes.ThrusterBoost = Utilities.InverseLerp(13f, 24f, npc.velocity.Length()) * 0.8f;
+            artemisAttributes.ThrusterBoost = LumUtils.InverseLerp(13f, 24f, npc.velocity.Length()) * 0.8f;
             artemisAttributes.WingtipVorticesOpacity = artemisAttributes.ThrusterBoost;
             artemisAttributes.Animation = ExoTwinAnimation.Attacking;
             artemisAttributes.Frame = artemisAttributes.Animation.CalculateFrame(wrappedAITimer / 40f % 1f, artemisAttributes.InPhase2);
@@ -164,7 +164,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 GeneralParticleHandler.SpawnParticle(spark);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    Utilities.NewProjectileBetter(npc.GetSource_FromAI(), laserSpawnPosition, laserShootVelocity, ModContent.ProjectileType<ArtemisLaserImproved>(), BasicShotDamage, 0f, -1, 0f, playsGrazeSound.ToInt());
+                    LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), laserSpawnPosition, laserShootVelocity, ModContent.ProjectileType<ArtemisLaserImproved>(), BasicShotDamage, 0f, -1, 0f, playsGrazeSound.ToInt());
             }
         }
     }

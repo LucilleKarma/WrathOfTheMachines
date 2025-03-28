@@ -57,12 +57,12 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             ref float hoverOffsetAngle = ref SharedState.Values[2];
             ref float moveDirection = ref SharedState.Values[3];
 
-            if (Utilities.WrapAngle360(hoverOffsetAngle) % MathHelper.PiOver4 >= 0.01f)
+            if (LumUtils.WrapAngle360(hoverOffsetAngle) % MathHelper.PiOver4 >= 0.01f)
                 hoverOffsetAngle = MathHelper.PiOver4;
 
             if (wrapperAITimer == 1)
             {
-                hoverOffsetAngle = Utilities.WrapAngle360(hoverOffsetAngle + Main.rand.NextFromList(-1f, 1f) * MathHelper.PiOver2);
+                hoverOffsetAngle = LumUtils.WrapAngle360(hoverOffsetAngle + Main.rand.NextFromList(-1f, 1f) * MathHelper.PiOver2);
                 npc.netUpdate = true;
 
                 int totalPerformedCycles = AITimer / (hoverRedirectTime + slowDownTime + chargeUpTime + energyGleamTime + laserShootTime);
@@ -79,7 +79,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 float hoverRedirectInterpolant = wrapperAITimer / (float)hoverRedirectTime;
                 npc.rotation = npc.rotation.AngleLerp(npc.AngleTo(Target.Center), hoverRedirectInterpolant * 0.75f);
 
-                float hoverSpeedInterpolant = MathHelper.SmoothStep(0.04f, 0.3f, Utilities.Convert01To010(hoverRedirectInterpolant.Cubed()).Squared());
+                float hoverSpeedInterpolant = MathHelper.SmoothStep(0.04f, 0.3f, LumUtils.Convert01To010(hoverRedirectInterpolant.Cubed()).Squared());
                 Vector2 hoverDestination = Target.Center + hoverOffsetAngle.ToRotationVector2() * new Vector2(700f, 500f);
 
                 while (Collision.SolidCollision(hoverDestination - Vector2.One * 300f, 600, 600))
@@ -103,7 +103,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             {
                 npc.velocity *= 0.7f;
 
-                float energyChargeUpInterpolant = Utilities.InverseLerp(0f, chargeUpTime, wrapperAITimer - hoverRedirectTime - slowDownTime);
+                float energyChargeUpInterpolant = LumUtils.InverseLerp(0f, chargeUpTime, wrapperAITimer - hoverRedirectTime - slowDownTime);
 
                 if (Main.rand.NextBool(energyChargeUpInterpolant * 1.6f) && energyChargeUpInterpolant < 0.75f)
                 {
@@ -118,8 +118,8 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             // Create a massive visual glean.
             else if (wrapperAITimer <= hoverRedirectTime + slowDownTime + chargeUpTime + energyGleamTime)
             {
-                float gleamAnimationCompletion = Utilities.InverseLerp(0f, energyGleamTime, wrapperAITimer - hoverRedirectTime - slowDownTime - chargeUpTime);
-                float gleamInterpolant = Utilities.InverseLerp(0f, 0.7f, gleamAnimationCompletion);
+                float gleamAnimationCompletion = LumUtils.InverseLerp(0f, energyGleamTime, wrapperAITimer - hoverRedirectTime - slowDownTime - chargeUpTime);
+                float gleamInterpolant = LumUtils.InverseLerp(0f, 0.7f, gleamAnimationCompletion);
                 artemisAttributes.SpecificDrawAction = () =>
                 {
                     DoBehavior_ExothermalOverload_ArtemisRenderGleam(npc.Center + npc.rotation.ToRotationVector2() * 76f - Main.screenPosition, gleamInterpolant);
@@ -137,7 +137,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                     Vector2 left = (hoverOffsetAngle - MathHelper.PiOver2).ToRotationVector2();
                     Vector2 right = -left;
                     Vector2 directionToTarget = npc.SafeDirectionTo(Target.Center);
-                    Utilities.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ModContent.ProjectileType<ExothermalDisintegrationRay>(), ExothermalDisintegrationRayDamage, 0f);
+                    LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ModContent.ProjectileType<ExothermalDisintegrationRay>(), ExothermalDisintegrationRayDamage, 0f);
 
                     moveDirection = Vector2.Dot(left, directionToTarget) > Vector2.Dot(right, directionToTarget) ? left.ToRotation() : right.ToRotation();
                 }
@@ -182,7 +182,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             float areaUnderBump = 0.20183f;
 
             float spinArc = MathHelper.PiOver2;
-            float spinBump = MathF.Pow(Utilities.Convert01To010(MathF.Pow(Utilities.InverseLerp(0f, spinTime, wrappedAITimer), 0.7f)), 13f);
+            float spinBump = MathF.Pow(LumUtils.Convert01To010(MathF.Pow(LumUtils.InverseLerp(0f, spinTime, wrappedAITimer), 0.7f)), 13f);
             spinOffsetAngle += spinBump / areaUnderBump * spinArc / spinTime;
 
             // Spin around the player.
@@ -190,7 +190,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             {
                 if (wrappedAITimer <= spinTime - 14)
                 {
-                    float hoverSpeedInterpolant = Utilities.InverseLerp(0f, 15f, wrappedAITimer);
+                    float hoverSpeedInterpolant = LumUtils.InverseLerp(0f, 15f, wrappedAITimer);
                     Vector2 hoverDestination = Target.Center + spinOffsetAngle.ToRotationVector2() * spinRadius;
                     npc.SmoothFlyNear(hoverDestination, hoverSpeedInterpolant * 0.2f, 1f - hoverSpeedInterpolant * 0.32f);
                 }
@@ -215,7 +215,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             // Begin the dash, repositioning the direction over the course of a few frames.
             else if (wrappedAITimer <= spinTime + dashDelay + dashRepositionTime)
             {
-                apollo.FlameEngulfInterpolant = Utilities.Saturate(apollo.FlameEngulfInterpolant + 0.2f);
+                apollo.FlameEngulfInterpolant = LumUtils.Saturate(apollo.FlameEngulfInterpolant + 0.2f);
                 npc.dontTakeDamage = true;
                 npc.velocity = Vector2.Lerp(npc.velocity, npc.SafeDirectionTo(Target.Center) * 67f, 0.2f);
                 if (wrappedAITimer == spinTime + dashDelay + 1)
@@ -263,8 +263,8 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             Texture2D flare = MiscTexturesRegistry.ShineFlareTexture.Value;
             Texture2D bloom = MiscTexturesRegistry.BloomCircleSmall.Value;
 
-            float flareOpacity = Utilities.InverseLerp(1f, 0.75f, glimmerInterpolant);
-            float flareScale = MathF.Pow(Utilities.Convert01To010(glimmerInterpolant), 1.4f) * 1.9f + 0.1f;
+            float flareOpacity = LumUtils.InverseLerp(1f, 0.75f, glimmerInterpolant);
+            float flareScale = MathF.Pow(LumUtils.Convert01To010(glimmerInterpolant), 1.4f) * 1.9f + 0.1f;
             float flareRotation = MathHelper.SmoothStep(0f, MathHelper.TwoPi, MathF.Pow(glimmerInterpolant, 0.2f)) + MathHelper.PiOver4;
             Color flareColorA = Color.OrangeRed;
             Color flareColorB = Color.Yellow;
@@ -284,7 +284,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             {
                 Vector2 fireSpawnPosition = npc.Center + (npc.rotation + Main.rand.NextFloatDirection() * MathHelper.PiOver2).ToRotationVector2() * 60f + Main.rand.NextVector2Circular(24f, 24f);
                 Vector2 fireVelocity = -npc.rotation.ToRotationVector2() * Main.rand.NextFloat(7.5f, 27.5f) + Main.rand.NextVector2Circular(14f, 14f);
-                Color fireGlowColor = Utilities.MulticolorLerp(Main.rand.NextFloat(), Color.Yellow, Color.YellowGreen, Color.Lime) * Main.rand.NextFloat(0.42f, 0.68f);
+                Color fireGlowColor = LumUtils.MulticolorLerp(Main.rand.NextFloat(), Color.Yellow, Color.YellowGreen, Color.Lime) * Main.rand.NextFloat(0.42f, 0.68f);
                 Vector2 fireGlowScaleFactor = Vector2.One * Main.rand.NextFloat(0.12f, 0.24f);
                 BloomPixelParticle fire = new(fireSpawnPosition, fireVelocity, Color.White, fireGlowColor, Main.rand.Next(11, 30), Vector2.One * 2f, null, fireGlowScaleFactor);
                 fire.Spawn();

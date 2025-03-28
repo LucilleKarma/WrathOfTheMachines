@@ -17,7 +17,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
         /// <summary>
         /// How far along Hades is with his firing animation during his ContinuousLaserBarrage attack.
         /// </summary>
-        public float ContinuousLaserBarrage_FireCompletion => Utilities.InverseLerp(0f, ContinuousLaserBarrage_ShootTime, AITimer - ContinuousLaserBarrage_TelegraphTime);
+        public float ContinuousLaserBarrage_FireCompletion => LumUtils.InverseLerp(0f, ContinuousLaserBarrage_ShootTime, AITimer - ContinuousLaserBarrage_TelegraphTime);
 
         /// <summary>
         /// How many barrages Hades has done so far for his ContinuousLaserBarrage attack.
@@ -73,12 +73,12 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
 
         public void DoBehavior_ContinuousLaserBarrage_PerformTelegraphing()
         {
-            float telegraphCompletion = Utilities.InverseLerp(0f, ContinuousLaserBarrage_TelegraphTime, AITimer);
+            float telegraphCompletion = LumUtils.InverseLerp(0f, ContinuousLaserBarrage_TelegraphTime, AITimer);
             BodyRenderAction = new(AllSegments(), new(behaviorOverride =>
             {
                 float fireCompletion = ContinuousLaserBarrage_FireCompletion;
                 float indexRatioAlongHades = behaviorOverride.RelativeIndex / (float)BodySegmentCount;
-                float closenessToFiring = Utilities.InverseLerp(-0.1f, 0.01f, fireCompletion - indexRatioAlongHades);
+                float closenessToFiring = LumUtils.InverseLerp(-0.1f, 0.01f, fireCompletion - indexRatioAlongHades);
                 float fadeOutDueToOncomingFiring = (1f - closenessToFiring).Squared();
                 PrimitivePixelationSystem.RenderToPrimsNextFrame(() =>
                 {
@@ -129,7 +129,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
                     {
                         float slowdownFactor = Utils.Remap(Target.Distance(laserSpawnPosition), 775f, 1300f, 0.5f, 1f);
                         Vector2 laserVelocity = (Target.Center - laserSpawnPosition).SafeNormalize(Vector2.UnitY) * slowdownFactor * ContinuousLaserBarrage_LaserShootSpeed;
-                        Utilities.NewProjectileBetter(segment.GetSource_FromAI(), laserSpawnPosition, laserVelocity, ModContent.ProjectileType<HadesLaserBurst>(), BasicLaserDamage, 0f, -1, 60f, -1f);
+                        LumUtils.NewProjectileBetter(segment.GetSource_FromAI(), laserSpawnPosition, laserVelocity, ModContent.ProjectileType<HadesLaserBurst>(), BasicLaserDamage, 0f, -1, 60f, -1f);
 
                         behaviorOverride.GenericCountdown = 20f;
                         segment.netUpdate = true;

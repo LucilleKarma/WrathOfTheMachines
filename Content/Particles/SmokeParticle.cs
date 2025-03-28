@@ -41,7 +41,7 @@ namespace WoTM.Content.Particles
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            float opacity = Utilities.InverseLerpBump(0f, 0.02f, 0.4f, 1f, LifetimeRatio) * 0.75f;
+            float opacity = LumUtils.InverseLerpBump(0f, 0.02f, 0.4f, 1f, LifetimeRatio) * 0.75f;
             int horizontalFrame = (int)MathF.Round(MathHelper.Lerp(0f, 2f, LifetimeRatio));
             int width = 28;
             int height = 28;

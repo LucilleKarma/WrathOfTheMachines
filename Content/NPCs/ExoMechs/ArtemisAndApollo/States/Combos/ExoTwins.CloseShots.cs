@@ -159,7 +159,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                             Vector2 aimDirection = npc.rotation.ToRotationVector2();
                             Vector2 fireballSpawnPosition = npc.Center + aimDirection * 70f;
                             Vector2 fireballShootVelocity = aimDirection * CloseShots_ApolloFireballShootSpeed;
-                            Utilities.NewProjectileBetter(npc.GetSource_FromAI(), fireballSpawnPosition, fireballShootVelocity, ModContent.ProjectileType<ApolloPlasmaFireball>(), BasicShotDamage, 0f, -1, Target.Center.X, Target.Center.Y, 1f);
+                            LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), fireballSpawnPosition, fireballShootVelocity, ModContent.ProjectileType<ApolloPlasmaFireball>(), BasicShotDamage, 0f, -1, Target.Center.X, Target.Center.Y, 1f);
                         }
                     }
 

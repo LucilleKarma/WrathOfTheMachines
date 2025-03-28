@@ -176,13 +176,13 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             return new(behaviorOverride =>
             {
                 float oldInterpolant = behaviorOverride.SegmentOpenInterpolant;
-                behaviorOverride.SegmentOpenInterpolant = Utilities.Saturate(behaviorOverride.SegmentOpenInterpolant + segmentOpenRate);
+                behaviorOverride.SegmentOpenInterpolant = LumUtils.Saturate(behaviorOverride.SegmentOpenInterpolant + segmentOpenRate);
 
                 bool segmentJustOpened = behaviorOverride.SegmentOpenInterpolant > 0f && oldInterpolant <= 0f;
                 if (segmentJustOpened)
                     SoundEngine.PlaySound(ThanatosHead.VentSound with { MaxInstances = 8, Volume = 0.3f }, behaviorOverride.NPC.Center);
 
-                float bigInterpolant = Utilities.InverseLerp(1f, 0.91f, behaviorOverride.SegmentOpenInterpolant);
+                float bigInterpolant = LumUtils.InverseLerp(1f, 0.91f, behaviorOverride.SegmentOpenInterpolant);
                 if (Main.rand.NextBool(60))
                     bigInterpolant = 1f;
 

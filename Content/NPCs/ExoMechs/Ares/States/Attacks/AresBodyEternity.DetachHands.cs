@@ -50,7 +50,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
         public void DetachHandsUpdate(AresHand hand, int armIndex)
         {
             NPC handNPC = hand.NPC;
-            handNPC.Opacity = Utilities.Saturate(handNPC.Opacity - 0.025f);
+            handNPC.Opacity = LumUtils.Saturate(handNPC.Opacity - 0.025f);
             handNPC.velocity.X *= 0.84f;
             handNPC.velocity.Y += 0.5f;
             handNPC.damage = 0;

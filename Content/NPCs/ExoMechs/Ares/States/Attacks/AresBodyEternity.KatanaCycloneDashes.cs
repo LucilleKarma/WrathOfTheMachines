@@ -186,13 +186,13 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             hand.ArmSide = (armIndex >= ArmCount / 2).ToDirectionInt();
             hand.HandType = AresHandType.EnergyKatana;
             hand.ArmEndpoint = handNPC.Center + handNPC.velocity;
-            hand.EnergyDrawer.chargeProgress = Utilities.InverseLerp(0f, 30f, AITimer);
+            hand.EnergyDrawer.chargeProgress = LumUtils.InverseLerp(0f, 30f, AITimer);
             hand.GlowmaskDisabilityInterpolant = 0f;
             hand.Frame = 0;
             hand.CanRender = canRender;
             handNPC.damage = 0;
             handNPC.spriteDirection = 1;
-            handNPC.Opacity = Utilities.Saturate(handNPC.Opacity + 0.3f);
+            handNPC.Opacity = LumUtils.Saturate(handNPC.Opacity + 0.3f);
             handNPC.SmoothFlyNear(hoverDestination, 0.5f, 0.5f);
             handNPC.rotation = handNPC.AngleFrom(NPC.Center).AngleLerp(hand.ShoulderToHandDirection, 0.3f);
 

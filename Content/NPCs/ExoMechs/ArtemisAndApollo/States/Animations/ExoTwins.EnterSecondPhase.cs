@@ -40,7 +40,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
         /// <summary>
         /// How long Artemis waits before she enters her second phase. This should be at least <see cref="EnterSecondPhase_SecondPhaseAnimationTime"/>, since she's meant to transition after Apollo does.
         /// </summary>
-        public static int EnterSecondPhase_ArtemisPhaseTransitionDelay => EnterSecondPhase_SecondPhaseAnimationTime + Utilities.SecondsToFrames(1f);
+        public static int EnterSecondPhase_ArtemisPhaseTransitionDelay => EnterSecondPhase_SecondPhaseAnimationTime + LumUtils.SecondsToFrames(1f);
 
         /// <summary>
         /// How long Apollo spends lowering the forcefield during the second phase transition.
@@ -94,7 +94,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                     lensProjectileID = ModContent.ProjectileType<BrokenApolloLens>();
 
                 Vector2 lensPopOffVelocity = lensDirection * EnterSecondPhase_LensPopOffSpeed;
-                Utilities.NewProjectileBetter(npc.GetSource_FromAI(), lensPosition, lensPopOffVelocity, lensProjectileID, 0, 0f);
+                LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), lensPosition, lensPopOffVelocity, lensProjectileID, 0, 0f);
 
                 npc.netUpdate = true;
             }
@@ -138,7 +138,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                     ProtectArtemis(npc, Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed], twinAttributes);
                 else if (!twinAttributes.InPhase2)
                 {
-                    float animationCompletion = Utilities.InverseLerp(0f, EnterSecondPhase_SecondPhaseAnimationTime, AITimer - EnterSecondPhase_SlowDownTime);
+                    float animationCompletion = LumUtils.InverseLerp(0f, EnterSecondPhase_SecondPhaseAnimationTime, AITimer - EnterSecondPhase_SlowDownTime);
                     PerformPhase2TransitionAnimations(npc, twinAttributes, animationCompletion);
                     npc.rotation = npc.AngleTo(Target.Center);
                 }
@@ -148,7 +148,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             {
                 npc.chaseable = false;
 
-                float animationCompletion = Utilities.InverseLerp(0f, EnterSecondPhase_SecondPhaseAnimationTime, AITimer - EnterSecondPhase_SlowDownTime - EnterSecondPhase_ArtemisPhaseTransitionDelay);
+                float animationCompletion = LumUtils.InverseLerp(0f, EnterSecondPhase_SecondPhaseAnimationTime, AITimer - EnterSecondPhase_SlowDownTime - EnterSecondPhase_ArtemisPhaseTransitionDelay);
                 PerformPhase2TransitionAnimations(npc, twinAttributes, animationCompletion);
 
                 // Look to the side if Artemis' animation completion is ongoing.
@@ -230,7 +230,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             else
                 SharedState.Values[0] = 0f;
 
-            float artemisAnimationCompletion = Utilities.InverseLerp(0f, EnterSecondPhase_SecondPhaseAnimationTime, AITimer - EnterSecondPhase_SlowDownTime - EnterSecondPhase_ArtemisPhaseTransitionDelay);
+            float artemisAnimationCompletion = LumUtils.InverseLerp(0f, EnterSecondPhase_SecondPhaseAnimationTime, AITimer - EnterSecondPhase_SlowDownTime - EnterSecondPhase_ArtemisPhaseTransitionDelay);
             bool lowerForcefield = artemisAnimationCompletion >= 0.78f;
             UpdateForcefieldOpacity(lowerForcefield);
 
@@ -306,7 +306,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
         public static void UpdateForcefieldOpacity(bool lowerForcefield)
         {
             float opacityUpdateRate = 0.05f;
-            EnterSecondPhase_ProtectiveForcefieldOpacity = Utilities.Saturate(EnterSecondPhase_ProtectiveForcefieldOpacity - lowerForcefield.ToDirectionInt() * opacityUpdateRate);
+            EnterSecondPhase_ProtectiveForcefieldOpacity = LumUtils.Saturate(EnterSecondPhase_ProtectiveForcefieldOpacity - lowerForcefield.ToDirectionInt() * opacityUpdateRate);
         }
 
         /// <summary>

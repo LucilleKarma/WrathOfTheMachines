@@ -76,13 +76,13 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon
                 foreach (Player player in Main.ActivePlayers)
                 {
                     if (player.WithinRange(NPC.Center, 6700f))
-                        Utilities.NewProjectileBetter(NPC.GetSource_FromAI(), player.Center - Vector2.UnitY * 800f, Vector2.Zero, ModContent.ProjectileType<DraedonLootCrate>(), 0, 0f, player.whoAmI);
+                        LumUtils.NewProjectileBetter(NPC.GetSource_FromAI(), player.Center - Vector2.UnitY * 800f, Vector2.Zero, ModContent.ProjectileType<DraedonLootCrate>(), 0, 0f, player.whoAmI);
                 }
             }
 
             if (dialogue.Finished(speakTimer))
             {
-                HologramOverlayInterpolant = Utilities.Saturate(HologramOverlayInterpolant + 0.02f);
+                HologramOverlayInterpolant = LumUtils.Saturate(HologramOverlayInterpolant + 0.02f);
                 MaxSkyOpacity = 1f - HologramOverlayInterpolant;
                 if (HologramOverlayInterpolant >= 1f)
                     NPC.active = false;

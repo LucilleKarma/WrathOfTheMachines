@@ -86,7 +86,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
                     float mineSpeed = Main.rand.NextFloat(30f, 175f);
                     float mineOffsetAngle = Main.rand.NextGaussian(0.14f);
                     Vector2 mineVelocity = (Target.Center - mineSpawnPosition).SafeNormalize(Vector2.UnitY).RotatedBy(mineOffsetAngle) * mineSpeed;
-                    Utilities.NewProjectileBetter(segment.GetSource_FromAI(), mineSpawnPosition, mineVelocity, ModContent.ProjectileType<HadesMine>(), MineDamage, 0f, -1, mineLifetime, time);
+                    LumUtils.NewProjectileBetter(segment.GetSource_FromAI(), mineSpawnPosition, mineVelocity, ModContent.ProjectileType<HadesMine>(), MineDamage, 0f, -1, mineLifetime, time);
                 }
 
                 SoundEngine.PlaySound(Apollo.MissileLaunchSound with { Volume = 0.6f, MaxInstances = 0 }, mineSpawnPosition);

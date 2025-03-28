@@ -42,7 +42,7 @@ namespace WoTM.Content.Particles
         public override void Update()
         {
             Scale = Vector2.One * MathHelper.Lerp(StartingScale, EndingScale, MathF.Pow(LifetimeRatio, ScaleConvergePower));
-            Opacity = Utilities.InverseLerp(0f, 0.5f, LifetimeRatio) * 0.7f;
+            Opacity = LumUtils.InverseLerp(0f, 0.5f, LifetimeRatio) * 0.7f;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

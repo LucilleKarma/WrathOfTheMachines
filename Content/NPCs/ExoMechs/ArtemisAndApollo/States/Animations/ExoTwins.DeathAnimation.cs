@@ -291,8 +291,8 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == ExoMechNPCIDs.ApolloID)
                 {
-                    Utilities.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ModContent.ProjectileType<GaussNukeBoom>(), 0, 0f, -1, 2000f, 0f, 2f);
-                    Utilities.NewProjectileBetter(npc.GetSource_FromAI(), Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Center, Vector2.Zero, ModContent.ProjectileType<GaussNukeBoom>(), 0, 0f, -1, 2000f, 0f, 2f);
+                    LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ModContent.ProjectileType<GaussNukeBoom>(), 0, 0f, -1, 2000f, 0f, 2f);
+                    LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Center, Vector2.Zero, ModContent.ProjectileType<GaussNukeBoom>(), 0, 0f, -1, 2000f, 0f, 2f);
                 }
             }
 

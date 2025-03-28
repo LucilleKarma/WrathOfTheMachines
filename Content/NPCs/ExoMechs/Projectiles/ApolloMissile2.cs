@@ -143,7 +143,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Projectiles
             Color startingColor = Color.Lerp(Color.SkyBlue, Color.White, 0.6f);
             Color middleColor = Color.Lerp(Color.Lime, Color.Yellow, 0.32f);
             Color endColor = Color.Lerp(Color.DarkGreen, Color.Red, 0.2f);
-            return Utilities.MulticolorLerp(completionRatio, startingColor, middleColor, endColor) * trailOpacity;
+            return LumUtils.MulticolorLerp(completionRatio, startingColor, middleColor, endColor) * trailOpacity;
         }
 
         public void RenderPixelatedPrimitives(SpriteBatch spriteBatch)

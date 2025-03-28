@@ -147,7 +147,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             Vector2 flyDestination = Target.Center + idealOffsetDirection * forwardOffset + idealOffsetDirection.RotatedBy(MathHelper.PiOver2) * sideOffset;
 
             float moveCompletion = AITimer / (float)PerpendicularBodyLaserBlasts_RedirectTime;
-            float flySpeedInterpolant = Utilities.InverseLerp(0f, 0.35f, moveCompletion);
+            float flySpeedInterpolant = LumUtils.InverseLerp(0f, 0.35f, moveCompletion);
             float idealFlySpeed = MathHelper.SmoothStep(4f, 42f, flySpeedInterpolant);
             if (PerpendicularBodyLaserBlasts_HasReachedDestination)
                 idealFlySpeed *= 0.1f;
@@ -187,7 +187,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             }));
 
             float shootCompletionRatio = PerpendicularBodyLaserBlasts_BurstShootCompletionRatio;
-            float rumblePower = Utilities.InverseLerpBump(0f, shootCompletionRatio, shootCompletionRatio, shootCompletionRatio + 0.04f, telegraphCompletion);
+            float rumblePower = LumUtils.InverseLerpBump(0f, shootCompletionRatio, shootCompletionRatio, shootCompletionRatio + 0.04f, telegraphCompletion);
             ScreenShakeSystem.SetUniversalRumble(rumblePower * 1.3f, MathHelper.TwoPi, null, 0.2f);
         }
 
@@ -244,8 +244,8 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Utilities.NewProjectileBetter(segment.GetSource_FromAI(), laserSpawnPosition, perpendicularDirection * PerpendicularBodyLaserBlasts_LaserShootSpeed, ModContent.ProjectileType<HadesLaserBurst>(), BasicLaserDamage, 0f, -1);
-                Utilities.NewProjectileBetter(segment.GetSource_FromAI(), laserSpawnPosition, perpendicularDirection * -PerpendicularBodyLaserBlasts_LaserShootSpeed, ModContent.ProjectileType<HadesLaserBurst>(), BasicLaserDamage, 0f, -1);
+                LumUtils.NewProjectileBetter(segment.GetSource_FromAI(), laserSpawnPosition, perpendicularDirection * PerpendicularBodyLaserBlasts_LaserShootSpeed, ModContent.ProjectileType<HadesLaserBurst>(), BasicLaserDamage, 0f, -1);
+                LumUtils.NewProjectileBetter(segment.GetSource_FromAI(), laserSpawnPosition, perpendicularDirection * -PerpendicularBodyLaserBlasts_LaserShootSpeed, ModContent.ProjectileType<HadesLaserBurst>(), BasicLaserDamage, 0f, -1);
             }
 
             ScreenShakeSystem.StartShake(3.2f);
@@ -279,7 +279,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Hades
             // The multiplication by 0.5 is because this is being rendered to the pixelation target, wherein everything is downscaled by a factor of two, so that it can be upscaled later.
             Vector2 drawPosition = (start - Main.screenPosition) * 0.5f;
 
-            float fadeOut = Utilities.InverseLerp(1f, PerpendicularBodyLaserBlasts_BurstShootCompletionRatio, telegraphIntensityFactor).Squared();
+            float fadeOut = LumUtils.InverseLerp(1f, PerpendicularBodyLaserBlasts_BurstShootCompletionRatio, telegraphIntensityFactor).Squared();
             Effect spread = Filters.Scene["CalamityMod:SpreadTelegraph"].GetShader().Shader;
             spread.Parameters["centerOpacity"].SetValue(0.4f);
             spread.Parameters["mainOpacity"].SetValue(opacity * 0.3f);

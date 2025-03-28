@@ -88,19 +88,19 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             float burstOffsetAngle = MathF.Cos(MathHelper.TwoPi * AITimer / 120f) * MathHelper.PiOver2;
             Vector2 burstShootDirection = teslaSphere.SafeDirectionTo(Target.Center).RotatedBy(burstOffsetAngle);
             Vector2 burstSpawnPosition = teslaSphere.Center + burstShootDirection * teslaSphere.width * Main.rand.NextFloat(0.1f);
-            Utilities.NewProjectileBetter(NPC.GetSource_FromAI(), burstSpawnPosition, burstShootDirection * 42f, ModContent.ProjectileType<HomingTeslaBurst>(), TeslaBurstDamage, 0f);
+            LumUtils.NewProjectileBetter(NPC.GetSource_FromAI(), burstSpawnPosition, burstShootDirection * 42f, ModContent.ProjectileType<HomingTeslaBurst>(), TeslaBurstDamage, 0f);
         }
 
         public void NukeAoEAndPlasmaBlastsHandUpdate(AresHand hand, Vector2 hoverOffset, int armIndex)
         {
             NPC handNPC = hand.NPC;
             handNPC.SmoothFlyNear(NPC.Center + hoverOffset * NPC.scale, 0.3f, 0.8f);
-            handNPC.Opacity = Utilities.Saturate(handNPC.Opacity + 0.2f);
+            handNPC.Opacity = LumUtils.Saturate(handNPC.Opacity + 0.2f);
             hand.UsesBackArm = armIndex == 0 || armIndex == ArmCount - 1;
             hand.ArmSide = (armIndex >= ArmCount / 2).ToDirectionInt();
             hand.HandType = armIndex == ArmCount - 1 ? AresHandType.GaussNuke : AresHandType.PlasmaCannon;
             hand.ArmEndpoint = handNPC.Center + handNPC.velocity;
-            hand.EnergyDrawer.chargeProgress = Utilities.InverseLerp(0f, NukeAoEAndPlasmaBlasts_NukeChargeUpTime, AITimer);
+            hand.EnergyDrawer.chargeProgress = LumUtils.InverseLerp(0f, NukeAoEAndPlasmaBlasts_NukeChargeUpTime, AITimer);
             if (hand.EnergyDrawer.chargeProgress >= 1f)
                 hand.EnergyDrawer.chargeProgress = 0f;
             hand.GlowmaskDisabilityInterpolant = 0f;
@@ -154,7 +154,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 plasmaVelocity = handDirection * Main.rand.NextFloat(15f, 180f);
-                    Utilities.NewProjectileBetter(handNPC.GetSource_FromAI(), plasmaSpawnPosition, plasmaVelocity, ModContent.ProjectileType<LingeringPlasmaFireball>(), LingeringPlasmaDamage, 0f);
+                    LumUtils.NewProjectileBetter(handNPC.GetSource_FromAI(), plasmaSpawnPosition, plasmaVelocity, ModContent.ProjectileType<LingeringPlasmaFireball>(), LingeringPlasmaDamage, 0f);
 
                     handNPC.velocity -= handDirection * 6f;
                     handNPC.netSpam = 0;
@@ -205,7 +205,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
                     Vector2 handDirection = handNPC.rotation.ToRotationVector2() * handNPC.spriteDirection;
                     Vector2 nukeSpawnPosition = handNPC.Center + handDirection * 40f;
                     Vector2 nukeVelocity = handDirection * 72f;
-                    Utilities.NewProjectileBetter(handNPC.GetSource_FromAI(), nukeSpawnPosition, nukeVelocity, ModContent.ProjectileType<GaussNuke>(), NukeWeaponDamage, 0f, -1, explosionDiameter);
+                    LumUtils.NewProjectileBetter(handNPC.GetSource_FromAI(), nukeSpawnPosition, nukeVelocity, ModContent.ProjectileType<GaussNuke>(), NukeWeaponDamage, 0f, -1, explosionDiameter);
 
                     handNPC.velocity -= handDirection * 35f;
                     handNPC.netUpdate = true;

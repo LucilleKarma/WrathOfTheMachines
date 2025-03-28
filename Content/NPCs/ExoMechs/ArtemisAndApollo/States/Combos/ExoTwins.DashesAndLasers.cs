@@ -118,7 +118,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
             if (wrappedTime <= hoverTime)
             {
-                float flySpeed = Utilities.InverseLerp(0f, hoverTime, AITimer).Cubed() * 0.15f + 0.01f;
+                float flySpeed = LumUtils.InverseLerp(0f, hoverTime, AITimer).Cubed() * 0.15f + 0.01f;
                 npc.SmoothFlyNear(hoverDestination, flySpeed, 1f - flySpeed);
                 npc.rotation = npc.rotation.AngleLerp(npc.AngleTo(Target.Center), wrappedTime / (float)hoverTime);
                 apolloAttributes.Animation = ExoTwinAnimation.Idle;
@@ -132,14 +132,14 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
             if (wrappedTime <= hoverTime + reelBackTime)
             {
-                float reelBackSpeed = Utilities.InverseLerp(0f, reelBackTime, wrappedTime - hoverTime).Squared() * 40f;
+                float reelBackSpeed = LumUtils.InverseLerp(0f, reelBackTime, wrappedTime - hoverTime).Squared() * 40f;
                 float lookAngularVelocity = Utils.Remap(wrappedTime - hoverTime, 0f, reelBackTime, 0.4f, 0.029f);
                 npc.rotation = npc.rotation.AngleLerp(npc.AngleTo(Target.Center), lookAngularVelocity);
                 npc.velocity = npc.rotation.ToRotationVector2() * -reelBackSpeed;
                 npc.velocity *= 0.9f;
 
                 apolloAttributes.Animation = ExoTwinAnimation.ChargingUp;
-                apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(Utilities.InverseLerp(0f, reelBackTime, wrappedTime - hoverTime), apolloAttributes.InPhase2);
+                apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(LumUtils.InverseLerp(0f, reelBackTime, wrappedTime - hoverTime), apolloAttributes.InPhase2);
 
                 return;
             }
@@ -157,7 +157,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 npc.damage = npc.defDamage;
 
                 apolloAttributes.Animation = ExoTwinAnimation.Attacking;
-                apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(Utilities.InverseLerp(0f, dashTime, wrappedTime - hoverTime - reelBackTime), apolloAttributes.InPhase2);
+                apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(LumUtils.InverseLerp(0f, dashTime, wrappedTime - hoverTime - reelBackTime), apolloAttributes.InPhase2);
                 apolloAttributes.ThrusterBoost = MathHelper.Lerp(apolloAttributes.ThrusterBoost, 1.3f, 0.2f);
 
                 return;
@@ -172,7 +172,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                     npc.damage = npc.defDamage;
 
                 apolloAttributes.Animation = ExoTwinAnimation.Idle;
-                apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(Utilities.InverseLerp(0f, slowDownTime, wrappedTime - hoverTime - reelBackTime - dashTime), apolloAttributes.InPhase2);
+                apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(LumUtils.InverseLerp(0f, slowDownTime, wrappedTime - hoverTime - reelBackTime - dashTime), apolloAttributes.InPhase2);
             }
         }
 
@@ -241,7 +241,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             SoundEngine.PlaySound(CommonCalamitySounds.ExoLaserShootSound with { Volume = 0.8f }, laserSpawnPosition);
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
-                Utilities.NewProjectileBetter(artemis.GetSource_FromAI(), laserSpawnPosition, laserShootVelocity, ModContent.ProjectileType<ArtemisLaserImproved>(), BasicShotDamage, 0f);
+                LumUtils.NewProjectileBetter(artemis.GetSource_FromAI(), laserSpawnPosition, laserShootVelocity, ModContent.ProjectileType<ArtemisLaserImproved>(), BasicShotDamage, 0f);
         }
     }
 }

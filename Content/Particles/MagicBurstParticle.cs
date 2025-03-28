@@ -26,7 +26,7 @@ namespace WoTM.Content.Particles
 
         public override void Update()
         {
-            Opacity = Utilities.InverseLerp(0f, 4f, Lifetime - Time);
+            Opacity = LumUtils.InverseLerp(0f, 4f, Lifetime - Time);
             Scale += Vector2.One * ScaleExpandRate;
         }
 

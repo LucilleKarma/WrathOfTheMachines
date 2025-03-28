@@ -51,7 +51,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Projectiles
         {
             Time++;
 
-            Projectile.Opacity = Utilities.InverseLerpBump(0f, 0.32f, 0.75f, 1f, Time / Lifetime) * 0.72f;
+            Projectile.Opacity = LumUtils.InverseLerpBump(0f, 0.32f, 0.75f, 1f, Time / Lifetime) * 0.72f;
 
             if (Time >= Lifetime)
                 Projectile.Kill();

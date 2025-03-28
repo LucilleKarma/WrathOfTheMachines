@@ -121,7 +121,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 Vector2 unrotatedOffset = LaserCannonOffsets[offsetIndex];
                 Vector2 laserShootOffset = unrotatedOffset.RotatedBy(npc.rotation - MathHelper.PiOver2) * npc.scale;
                 Vector2 laserShootDirection = (npc.rotation + Main.rand.NextGaussian(MachineGunLasers_LaserShootSpread)).ToRotationVector2();
-                Vector2 laserShootVelocity = laserShootDirection * Utilities.InverseLerp(60f, 120f, AITimer) * MachineGunLasers_LaserShootSpeed * Main.rand.NextFloat(1f, 1.15f);
+                Vector2 laserShootVelocity = laserShootDirection * LumUtils.InverseLerp(60f, 120f, AITimer) * MachineGunLasers_LaserShootSpeed * Main.rand.NextFloat(1f, 1.15f);
                 DoBehavior_MachineGunLasers_ShootLaser(npc, npc.Center + laserShootOffset, laserShootVelocity, offsetIndex == LaserCannonOffsets.Length - 1);
             }
 
@@ -145,7 +145,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
             if (wrappedTimer <= MachineGunLasers_ApolloRedirectTime || doneAttacking)
             {
-                float hoverFlySpeedInterpolant = Utilities.InverseLerpBump(0f, 0.6f, 0.8f, 1f, wrappedTimer / (float)MachineGunLasers_ApolloRedirectTime) * 0.09f;
+                float hoverFlySpeedInterpolant = LumUtils.InverseLerpBump(0f, 0.6f, 0.8f, 1f, wrappedTimer / (float)MachineGunLasers_ApolloRedirectTime) * 0.09f;
                 Vector2 artemisPerpendicularOffset = Target.SafeDirectionTo(Main.npc[CalamityGlobalNPC.draedonExoMechTwinRed].Center).RotatedBy(MathHelper.PiOver2) * 1250f;
                 Vector2 left = Target.Center - artemisPerpendicularOffset;
                 Vector2 right = Target.Center + artemisPerpendicularOffset;
@@ -167,7 +167,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 if (Main.netMode != NetmodeID.MultiplayerClient && wrappedTimer == MachineGunLasers_ApolloRedirectTime + 1)
                 {
                     npc.velocity = npc.rotation.ToRotationVector2() * -0.5f;
-                    Utilities.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center + npc.velocity * 30f, npc.rotation.ToRotationVector2() * 0.01f, ModContent.ProjectileType<ApolloLineTelegraph>(), 0, 0f, -1, MachineGunLasers_ApolloTelegraphTime);
+                    LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center + npc.velocity * 30f, npc.rotation.ToRotationVector2() * 0.01f, ModContent.ProjectileType<ApolloLineTelegraph>(), 0, 0f, -1, MachineGunLasers_ApolloTelegraphTime);
                     npc.netUpdate = true;
                 }
 
@@ -200,7 +200,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 plasmaFireballVelocity = npc.SafeDirectionTo(Target.Center).RotatedBy(MathHelper.Pi / 3.5f) * 35f;
-                        Utilities.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center, plasmaFireballVelocity, ModContent.ProjectileType<LingeringPlasmaFireball>(), BasicShotDamage, 0f);
+                        LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), npc.Center, plasmaFireballVelocity, ModContent.ProjectileType<LingeringPlasmaFireball>(), BasicShotDamage, 0f);
                     }
                 }
 
@@ -209,7 +209,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
 
                 apolloAttributes.Animation = ExoTwinAnimation.Attacking;
                 apolloAttributes.ThrusterBoost = 2.3f;
-                apolloAttributes.MotionBlurInterpolant = Utilities.InverseLerp(27.5f, 50f, npc.velocity.Length());
+                apolloAttributes.MotionBlurInterpolant = LumUtils.InverseLerp(27.5f, 50f, npc.velocity.Length());
             }
 
             apolloAttributes.Frame = apolloAttributes.Animation.CalculateFrame(AITimer / 30f % 1f, apolloAttributes.InPhase2);
@@ -240,7 +240,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
                 return;
 
             int laserID = big ? ModContent.ProjectileType<ArtemisLaserImproved>() : ModContent.ProjectileType<ArtemisLaserSmall>();
-            Utilities.NewProjectileBetter(npc.GetSource_FromAI(), laserSpawnPosition, laserShootVelocity, laserID, BasicShotDamage, 0f);
+            LumUtils.NewProjectileBetter(npc.GetSource_FromAI(), laserSpawnPosition, laserShootVelocity, laserID, BasicShotDamage, 0f);
         }
 
         /// <summary>

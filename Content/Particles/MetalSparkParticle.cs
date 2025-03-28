@@ -45,7 +45,7 @@ namespace WoTM.Content.Particles
             Velocity.Y += 0.3f;
             Rotation = Velocity.ToRotation() + MathHelper.PiOver2;
 
-            DrawColor = Utilities.MulticolorLerp(LifetimeRatio * 0.99f, Palette);
+            DrawColor = LumUtils.MulticolorLerp(LifetimeRatio * 0.99f, Palette);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

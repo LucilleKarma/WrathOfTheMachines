@@ -494,7 +494,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             hand.NPC.SmoothFlyNear(NPC.Center + hoverOffset * NPC.scale, 0.2f, 0.84f);
             hand.NPC.Center = NPC.Center + hoverOffset * NPC.scale;
             hand.RotateToLookAt(Target.Center);
-            hand.NPC.Opacity = Utilities.Saturate(hand.NPC.Opacity + 0.2f);
+            hand.NPC.Opacity = LumUtils.Saturate(hand.NPC.Opacity + 0.2f);
             hand.UsesBackArm = armIndex == 0 || armIndex == ArmCount - 1;
             hand.ArmSide = (armIndex >= ArmCount / 2).ToDirectionInt();
 

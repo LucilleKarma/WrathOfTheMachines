@@ -22,7 +22,7 @@ namespace WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo
             npc.dontTakeDamage = true;
             npc.SmoothFlyNear(hoverDestination, 0.09f, 0.9f);
             npc.rotation = npc.rotation.AngleLerp(npc.AngleTo(Target.Center), 0.15f);
-            npc.Opacity = Utilities.Saturate(npc.Opacity - 0.08f);
+            npc.Opacity = LumUtils.Saturate(npc.Opacity - 0.08f);
 
             twinAttributes.Animation = ExoTwinAnimation.Idle;
             twinAttributes.Frame = twinAttributes.Animation.CalculateFrame(AITimer / 40f % 1f, twinAttributes.InPhase2);
