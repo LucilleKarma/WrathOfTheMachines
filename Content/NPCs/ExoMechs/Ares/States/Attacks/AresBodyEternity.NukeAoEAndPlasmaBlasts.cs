@@ -67,12 +67,16 @@ namespace WoTM.Content.NPCs.ExoMechs.Ares
             NPC.Center = Vector2.Lerp(NPC.Center, flyDestination, 0.02f);
             NPC.SimpleFlyMovement(NPC.SafeDirectionTo(flyDestination) * 26f, 0.3f);
 
+            int attackDuration = NukeAoEAndPlasmaBlasts_NukeChargeUpTime + NukeAoEAndPlasmaBlasts_NukeExplosionDelay + NukeAoEAndPlasmaBlasts_AttackTransitionDelay;
+            float colorShiftInterpolant = LumUtils.InverseLerpBump(0f, 30f, attackDuration - 30f, attackDuration, AITimer);
+            ShiftLightColors(colorShiftInterpolant, new(123, 255, 4), new(167, 255, 79), new Color(29, 105, 0));
+
             InstructionsForHands[0] = new(h => NukeAoEAndPlasmaBlastsHandUpdate(h, new Vector2(-400f, 40f), 0));
             InstructionsForHands[1] = new(h => NukeAoEAndPlasmaBlastsHandUpdate(h, new Vector2(-280f, 224f), 1));
             InstructionsForHands[2] = new(h => NukeAoEAndPlasmaBlastsHandUpdate(h, new Vector2(280f, 224f), 2));
             InstructionsForHands[3] = new(h => NukeAoEAndPlasmaBlastsHandUpdate(h, new Vector2(400f, 40f), 3));
 
-            if (AITimer >= NukeAoEAndPlasmaBlasts_NukeChargeUpTime + NukeAoEAndPlasmaBlasts_NukeExplosionDelay + NukeAoEAndPlasmaBlasts_AttackTransitionDelay)
+            if (AITimer >= attackDuration)
                 SelectNewState();
         }
 
