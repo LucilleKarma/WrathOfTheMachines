@@ -29,7 +29,7 @@ Projectiles: {
 	SmallHadesSegmentExplosion.DisplayName: 爆炸
 	BigHadesSegmentExplosion.DisplayName: 爆炸
 	AresCoreLaserSmall.DisplayName: 充能火花
-	AresSwingingKatanas.DisplayName: XF-09 “阿瑞斯”能量斩
+	AresSwingingKatanas.DisplayName: XF-09 阿瑞斯 能量斩
 	ApolloPlasmaFireball.DisplayName: 等离子火球
 	AresHyperfuturisticPortal.DisplayName: 超未来主义传送门
 	ExoTwinHyperfuturisticPortal.DisplayName: 超未来主义传送门
@@ -53,8 +53,8 @@ Projectiles: {
 NPCs: {
 	AresHand: {
 		DisplayName: 阿瑞斯之手
-		EnergyKatanaDisplayName: XF-09 “阿瑞斯”能量斩
-		PulseCannonDisplayName: XF-09 “阿瑞斯”脉冲炮
+		EnergyKatanaDisplayName: XF-09 阿瑞斯 能量斩
+		PulseCannonDisplayName: XF-09 阿瑞斯 脉冲炮
 	}
 
 	Draedon: {
@@ -124,9 +124,9 @@ NPCs: {
 		Error: 这个现实的结构被撕裂了。
 	}
 
-	ThanatosRename: XM-04 “哈迪斯”
-	ApolloRename: XS-11 “阿波罗”
-	ExoTwinsRenameNormal: XS-01 “阿尔忒弥斯”和 XS-11 “阿波罗”
+	ThanatosRename: XM-04 哈迪斯
+	ApolloRename: XS-11 阿波罗
+	ExoTwinsRenameNormal: XS-01 阿尔忒弥斯和 XS-11 阿波罗
 }
 
 Items: {
