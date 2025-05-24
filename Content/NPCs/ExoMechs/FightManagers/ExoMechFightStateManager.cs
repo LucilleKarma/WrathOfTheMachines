@@ -5,7 +5,6 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
-using WoTM.Content.NPCs.ExoMechs.Draedon;
 using Luminance.Common.DataStructures;
 using Luminance.Common.Utilities;
 using Terraria;
@@ -13,6 +12,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using WoTM.Common.Utilities;
 using WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo;
+using WoTM.Content.NPCs.ExoMechs.Draedon;
 using WoTM.Content.NPCs.ExoMechs.SpecificManagers;
 using WoTM.Core.BehaviorOverrides;
 
@@ -193,6 +193,7 @@ public sealed class ExoMechFightStateManager : ModSystem
             return;
         }
 
+        // Try to determine Draedon's current AI state, assuming he's present at all.
         DraedonBehavior.DraedonAIState? draedonState = null;
         int draedonIndex = NPC.FindFirstNPC(ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Draedon>());
         if (draedonIndex >= 0 && Main.npc[draedonIndex].TryGetBehavior(out DraedonBehavior behavior))
@@ -208,7 +209,7 @@ public sealed class ExoMechFightStateManager : ModSystem
 
             stateOfOtherExoMechs[i] = ExoMechStateFromNPC(otherExoMech, exoMechWasSummonedAtOnePoint);
         }
-        FightState = new(draedonState, totalAliveMechs, ExoMechStateFromNPC(primaryMech, true), stateOfOtherExoMechs);
+        FightState = new ExoMechFightState(draedonState, totalAliveMechs, ExoMechStateFromNPC(primaryMech, true), stateOfOtherExoMechs);
 
         FightOngoing = true;
     }
