@@ -10,6 +10,7 @@ namespace WoTM;
 
 public class WoTM : Mod
 {
+    // TODO -- Re-add Ennway to the credits in the future.
     public override void PostSetupContent()
     {
         BossRushEvent.Bosses.ForEach(b =>

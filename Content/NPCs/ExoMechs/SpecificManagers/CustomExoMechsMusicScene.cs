@@ -18,6 +18,6 @@ public class CustomExoMechsMusicScene : ModSceneEffect
     public override bool IsSceneEffectActive(Player player)
     {
         MusicID.Sets.SkipsVolumeRemap[Music] = true;
-        return ExoMechFightStateManager.FightOngoing && CustomExoMechsSky.Opacity >= 0.05f;
+        return ExoMechFightStateManager.FightOngoing && CustomExoMechsSky.Opacity >= 0.05f && false;
     }
 }
