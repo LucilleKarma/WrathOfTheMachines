@@ -1,5 +1,6 @@
 A mod that changes Calamity's Exo Mechs battle.
 
 Credits to the following individuals for helping (whether directly or indirectly) in the creation of the mod:
-Sound Design: Moonburn, Draebriel and Lucille Karma
+Sound Design: Moonburn, ConnorSFX and Lucille Karma
 Programming: Lucille Karma
+Music: jteoh
