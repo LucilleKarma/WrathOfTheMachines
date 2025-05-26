@@ -1,5 +1,5 @@
 displayName = Calamity: Wrath of the Machines
 author = Lucille Karma
-version = 1.0.0
+version = 1.0.1
 modReferences = CalamityMod, Luminance
 weakReferences = InfernumMode
