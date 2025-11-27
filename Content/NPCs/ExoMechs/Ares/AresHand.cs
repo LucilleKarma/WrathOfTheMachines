@@ -192,7 +192,7 @@ public class AresHand : ModNPC, IPixelatedPrimitiveRenderer
         NPC.defense = 100;
         NPC.DR_NERD(0.45f);
         NPC.LifeMaxNERB(1250000, 1495000, 650000);
-        NPC.lifeMax += (int)(NPC.lifeMax * CalamityConfig.Instance.BossHealthBoost * 0.01);
+        NPC.lifeMax += (int)(NPC.lifeMax * CalamityServerConfig.Instance.BossHealthBoost * 0.01);
         NPC.aiStyle = -1;
         AIType = -1;
         NPC.knockBackResist = 0f;

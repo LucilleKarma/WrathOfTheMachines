@@ -286,7 +286,7 @@ public sealed partial class ArtemisBehavior : NPCBehaviorOverride, IExoMech, IEx
         NPC.defense = CommonExoTwinFunctionalities.Defense;
         NPC.DR_NERD(CommonExoTwinFunctionalities.DamageReductionFactor);
 
-        float healthBoostFactor = CalamityConfig.Instance.BossHealthBoost * 0.01f + 1f;
+        float healthBoostFactor = CalamityServerConfig.Instance.BossHealthBoost * 0.01f + 1f;
         NPC.LifeMaxNERB(1250000, 1495000, 650000);
         NPC.lifeMax = (int)MathF.Round(NPC.lifeMax * healthBoostFactor);
 
