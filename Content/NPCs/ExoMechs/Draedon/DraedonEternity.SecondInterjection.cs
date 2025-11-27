@@ -33,7 +33,7 @@ public sealed partial class DraedonBehavior : NPCBehaviorOverride
     {
         int speakTimer = (int)AITimer - 150;
         var monologue = SecondInterjection;
-        SecondInterjection.Process(speakTimer, out DraedonDialogue dialogue, out int relativeTime);
+        SecondInterjection.Process(speakTimer, out DraedonDialogue? dialogue, out int relativeTime);
 
         HologramOverlayInterpolant = 0f;
 

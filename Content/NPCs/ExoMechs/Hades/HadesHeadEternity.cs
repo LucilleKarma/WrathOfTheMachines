@@ -170,7 +170,7 @@ public sealed partial class HadesHeadBehavior : NPCBehaviorOverride, IHadesSegme
     /// <summary>
     /// The action Hades should perform either after his AI state execution is complete, or after combo attack puppeteering, assuming he's performing a combo attack.
     /// </summary>
-    public Action ActionsToDeferAfterCombo
+    public Action? ActionsToDeferAfterCombo
     {
         get;
         set;

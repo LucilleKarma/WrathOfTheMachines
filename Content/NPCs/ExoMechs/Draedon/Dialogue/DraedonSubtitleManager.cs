@@ -8,7 +8,7 @@ namespace WoTM.Content.NPCs.ExoMechs.Draedon.Dialogue;
 
 public class DraedonSubtitleManager : ModSystem
 {
-    private static LoopedSoundInstance subtitleLoop;
+    private static LoopedSoundInstance? subtitleLoop;
 
     internal static int SequenceTimer;
 

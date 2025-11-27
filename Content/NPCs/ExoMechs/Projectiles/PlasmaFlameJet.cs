@@ -34,7 +34,7 @@ public class PlasmaFlameJet : ModProjectile, IPixelatedPrimitiveRenderer, IProjO
     /// <summary>
     /// The owner of this flame jet.
     /// </summary>
-    public NPC Owner
+    public NPC? Owner
     {
         get
         {

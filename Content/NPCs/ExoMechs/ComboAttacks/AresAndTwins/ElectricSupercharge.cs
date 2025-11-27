@@ -5,8 +5,6 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.Sounds;
-using WoTM.Content.NPCs.ExoMechs.Ares;
-using WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo;
 using Luminance.Assets;
 using Luminance.Common.Utilities;
 using Luminance.Core.Graphics;
@@ -17,6 +15,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using WoTM.Common.Utilities;
+using WoTM.Content.NPCs.ExoMechs.Ares;
+using WoTM.Content.NPCs.ExoMechs.ArtemisAndApollo;
 using WoTM.Content.NPCs.ExoMechs.FightManagers;
 using WoTM.Content.NPCs.ExoMechs.Projectiles;
 using WoTM.Content.Particles;
@@ -359,7 +359,7 @@ public class ElectricSupercharge : ExoMechComboHandler
     /// <param name="npc"></param>
     public static void PerformSharedExoTwinsBehaviors(NPC npc)
     {
-        IExoTwin twinInstance = null;
+        IExoTwin? twinInstance = null;
         if (npc.TryGetBehavior(out ArtemisBehavior artemis))
             twinInstance = artemis;
         else if (npc.TryGetBehavior(out ApolloBehavior apollo))

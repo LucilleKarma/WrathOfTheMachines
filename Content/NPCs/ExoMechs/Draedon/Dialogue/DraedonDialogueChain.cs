@@ -63,7 +63,7 @@ public class DraedonDialogueChain(int pauseBetweenDialogue = 30)
     /// <param name="time">How much time has passed since the start of the dialogue chain's playback.</param>
     public DraedonDialogue? GetActiveDialogue(ref int time)
     {
-        var evaluatedNode = Chain.First;
+        var evaluatedNode = Chain.First!;
         int intermediateWait = DraedonDialogueManager.UseSubtitles ? 0 : PauseBetweenDialogue;
         if (time < 0)
             return evaluatedNode.Value();
@@ -83,7 +83,7 @@ public class DraedonDialogueChain(int pauseBetweenDialogue = 30)
     /// Handles processing of this dialogue chain based on a given time state, making dialogue play out, returning important intermittent variables in the process.
     /// </summary>
     /// <param name="time">How much time has passed since the start of the dialogue chain's playback.</param>
-    public void Process(int time, out DraedonDialogue dialogue, out int relativeTime)
+    public void Process(int time, out DraedonDialogue? dialogue, out int relativeTime)
     {
         // Relative time in this sense refers to how much time has elapsed since the given dialogue instance began.
         relativeTime = time;

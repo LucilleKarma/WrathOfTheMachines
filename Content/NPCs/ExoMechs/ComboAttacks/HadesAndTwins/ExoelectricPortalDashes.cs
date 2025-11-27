@@ -164,7 +164,7 @@ public class ExoelectricPortalDashes : ExoMechComboHandler
 
             if (!DashOngoing && inPortal && !wasInPortal)
             {
-                if (Main.rand.NextBool(3))
+                if (Main.rand.NextBool(3) && portal is not null)
                     CreatePortalEnterVisuals(portal, false, 1.4f);
                 if (segment.RelativeIndex == 1)
                     SoundEngine.PlaySound(HeavyPortalWarpSound).WithVolumeBoost(1.9f);
