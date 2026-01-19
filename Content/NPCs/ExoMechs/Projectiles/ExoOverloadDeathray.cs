@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Ares;
-using WoTM.Content.NPCs.ExoMechs.Ares;
 using Luminance.Assets;
 using Luminance.Common.DataStructures;
 using Luminance.Common.Utilities;
@@ -15,6 +14,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using WoTM.Common.Utilities;
+using WoTM.Content.NPCs.ExoMechs.Ares;
 using WoTM.Content.NPCs.ExoMechs.SpecificManagers;
 
 namespace WoTM.Content.NPCs.ExoMechs.Projectiles;
@@ -319,6 +319,9 @@ public class ExoOverloadDeathray : ModProjectile, IProjOwnedByBoss<AresBody>, IE
         float distanceToProjection = Vector3.Distance(endPoint, targetCenter);
         return distanceToProjection <= Projectile.width * Projectile.scale && Vector3.Dot(directionToTarget, rayDirection) >= 0.96f;
     }
+
+    // Prevent the beam from killing every single town NPC instantly.
+    public override bool? CanHitNPC(NPC target) => false;
 
     public override bool ShouldUpdatePosition() => false;
 }
