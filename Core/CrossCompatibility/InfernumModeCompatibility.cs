@@ -1,4 +1,5 @@
-﻿using InfernumMode.Core.GlobalInstances.Systems;
+﻿using System.Runtime.CompilerServices;
+using InfernumMode.Core.GlobalInstances.Systems;
 using Terraria.ModLoader;
 
 namespace WoTM.Core.CrossCompatibility;
@@ -36,6 +37,14 @@ public class InfernumModeCompatibility : ModSystem
     [JITWhenModsEnabled("InfernumMode")]
     private static void SetInfernumActiveBecauseTheModCallIsntWorking(bool value)
     {
-        WorldSaveSystem.InfernumModeEnabled = value;
+        // The public InfernumModeEnabled property affects the activity state
+        // of the sentinels, making them despawn if the property transform to
+        // true.
+        // Consequently, it is necessary to use the private backing field, to prevent
+        // CV and Signus from being deleted from existence every frame.
+        [UnsafeAccessor(UnsafeAccessorKind.StaticField, Name = "infernumModeEnabled")]
+        extern static ref bool GetSetInfernumModeEnabled(WorldSaveSystem? system);
+
+        GetSetInfernumModeEnabled(null) = value;
     }
 }
