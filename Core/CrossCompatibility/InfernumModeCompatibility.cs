@@ -38,7 +38,7 @@ public class InfernumModeCompatibility : ModSystem
     private static void SetInfernumActiveBecauseTheModCallIsntWorking(bool value)
     {
         // The public InfernumModeEnabled property affects the activity state
-        // of the sentinels, making them despawn if the property transform to
+        // of the sentinels, making them despawn if the property transforms to
         // true.
         // Consequently, it is necessary to use the private backing field, to prevent
         // CV and Signus from being deleted from existence every frame.
