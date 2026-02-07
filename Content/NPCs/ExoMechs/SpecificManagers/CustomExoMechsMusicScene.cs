@@ -44,15 +44,18 @@ public class CustomExoMechsMusicScene : ModSceneEffect
 
     public override bool IsSceneEffectActive(Player player)
     {
-        bool isActive = ExoMechFightStateManager.FightOngoing && CustomExoMechsSky.Opacity >= 0.05f;
+        bool fightOngoing = ExoMechFightStateManager.FightOngoing && CustomExoMechsSky.Opacity >= 0.04f;
 
-        if (isActive)
+        if (fightOngoing)
         {
             previousTrack = Music;
             return true;
         }
 
-        previousTrack = MusicLoader.GetMusicSlot("CalamityMod/Sounds/Music/DraedonExoSelect");
+        previousTrack = MusicLoader.GetMusicSlot("WoTM/Assets/Sounds/Music/Draedon");
+        if (NPC.AnyNPCs(ModContent.NPCType<CalamityMod.NPCs.ExoMechs.Draedon>()))
+            return true;
+
         return false;
     }
 }
