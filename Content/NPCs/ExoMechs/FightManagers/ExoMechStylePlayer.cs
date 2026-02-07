@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using CalamityMod;
+using CalamityMod.Systems.Collections;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -159,7 +159,7 @@ public sealed class ExoMechStylePlayer : ModPlayer
         {
             int buffID = Player.buffType[i];
             bool buffActive = Player.buffTime[i] >= 1;
-            bool isntDebuff = (!Main.debuff[buffID] || CalamityLists.alcoholList.Contains(buffID)) && !BuffID.Sets.IsATagBuff[buffID];
+            bool isntDebuff = (!Main.debuff[buffID] || CalamityBuffSets.AlcoholStrength.ContainsKey(buffID)) && !BuffID.Sets.IsATagBuff[buffID];
 
             if (buffActive && isntDebuff)
                 currentBuffCount++;

@@ -4,6 +4,7 @@ using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
+using CalamityMod.Packets;
 using CalamityMod.World;
 using Luminance.Common.Utilities;
 using Luminance.Core.Graphics;
@@ -128,11 +129,7 @@ public sealed partial class DraedonBehavior : NPCBehaviorOverride
                 if (Main.netMode == NetmodeID.Server)
                 {
                     CalamityWorld.DraedonMechToSummon = ExoMech.None;
-
-                    ModPacket packet = ModContent.GetInstance<CalamityMod.CalamityMod>().GetPacket();
-                    packet.Write((byte)CalamityModMessageType.ExoMechSelection);
-                    packet.Write((int)CalamityWorld.DraedonMechToSummon);
-                    packet.Send();
+                    ExoMechSelectionPacket.Send();
                 }
             }
 

@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Weapons.DraedonsArsenal;
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using CalamityMod.NPCs.ExoMechs.Artemis;
 using CalamityMod.Particles;
 using CalamityMod.Sounds;
@@ -75,6 +74,16 @@ public static partial class ExoTwinsStates
     /// The standard random spread of lasers fired by Artemis during the MachineGunLasers attack.
     /// </summary>
     public static float MachineGunLasers_LaserShootSpread => MathHelper.ToRadians(Variables.GetAIFloat("MachineGunLasers_LaserShootSpreadDegrees", ExoMechAIVariableType.Twins));
+
+    /// <summary>
+    /// The sound played when the gatling laser starts.
+    /// </summary>
+    public static readonly SoundStyle GatlingFireStartSound = new("WoTM/Assets/Sounds/Custom/ExoTwins/GatlingLaserFireStart");
+
+    /// <summary>
+    /// The sound played when the gatling laser loops.
+    /// </summary>
+    public static readonly SoundStyle GatlingFireLoopSound = new("WoTM/Assets/Sounds/Custom/ExoTwins/GatlingLaserFireStart");
 
     /// <summary>
     /// AI update loop method for the MachineGunLasers attack.
@@ -250,10 +259,12 @@ public static partial class ExoTwinsStates
     public static void DoBehavior_MachineGunLasers_ManageSounds(NPC npc)
     {
         if (AITimer == MachineGunLasers_AttackDelay - 20)
-            SoundEngine.PlaySound(GatlingLaser.FireSound with { Volume = 2f });
+        {
+            SoundEngine.PlaySound(GatlingFireStartSound with { Volume = 2f });
+        }
 
         if (AITimer == MachineGunLasers_AttackDelay + 33)
-            GatlingLaserSoundLoop = LoopedSoundManager.CreateNew(GatlingLaser.FireLoopSound, () => !npc.active || SharedState.AIState != ExoTwinsAIState.MachineGunLasers);
+            GatlingLaserSoundLoop = LoopedSoundManager.CreateNew(GatlingFireLoopSound, () => !npc.active || SharedState.AIState != ExoTwinsAIState.MachineGunLasers);
         if (AITimer >= MachineGunLasers_AttackDuration - 45 || AITimer <= MachineGunLasers_AttackDelay)
             GatlingLaserSoundLoop?.Stop();
 

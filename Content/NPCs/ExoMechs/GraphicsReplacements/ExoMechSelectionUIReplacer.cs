@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using CalamityMod;
+using CalamityMod.Packets;
 using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
 using Luminance.Assets;
@@ -116,11 +117,6 @@ public class ExoMechSelectionUIReplacer : ModSystem
     {
         CalamityWorld.DraedonMechToSummon = mechToSummon;
         if (Main.netMode != NetmodeID.SinglePlayer)
-        {
-            var packet = ModContent.GetInstance<CalamityMod.CalamityMod>().GetPacket();
-            packet.Write((byte)CalamityModMessageType.ExoMechSelection);
-            packet.Write((int)CalamityWorld.DraedonMechToSummon);
-            packet.Send();
-        }
+            ExoMechSelectionPacket.Send();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod;
+using CalamityMod.Packets;
 using CalamityMod.UI.DraedonSummoning;
 using CalamityMod.World;
 using Luminance.Assets;
@@ -10,7 +11,6 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 using WoTM.Core.BehaviorOverrides;
 
 namespace WoTM.Core.Graphics.GraphicReplacements;
@@ -105,11 +105,6 @@ public class ExoMechSelectionUIReplacer : ILEditProvider
     {
         CalamityWorld.DraedonMechToSummon = mechToSummon;
         if (Main.netMode != NetmodeID.SinglePlayer)
-        {
-            var packet = ModContent.GetInstance<CalamityMod.CalamityMod>().GetPacket();
-            packet.Write((byte)CalamityModMessageType.ExoMechSelection);
-            packet.Write((int)CalamityWorld.DraedonMechToSummon);
-            packet.Send();
-        }
+            ExoMechSelectionPacket.Send();
     }
 }

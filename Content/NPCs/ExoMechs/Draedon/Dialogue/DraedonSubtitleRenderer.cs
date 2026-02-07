@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CalamityMod.UI.DraedonSummoning;
+using CalamityMod.Fonts;
 using Luminance.Common.Easings;
 using Luminance.Common.Utilities;
 using Luminance.Core.Graphics;
@@ -48,7 +48,7 @@ public class DraedonSubtitleRenderer : ModSystem
             if (GameCulture.FromCultureName(GameCulture.CultureName.Russian).IsActive)
                 return FontAssets.MouseText.Value;
 
-            return CodebreakerUI.DialogFont;
+            return FontAssetSystem.CodebreakerDialog.Value;
         }
     }
 

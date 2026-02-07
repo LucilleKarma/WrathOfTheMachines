@@ -11,6 +11,16 @@
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    
+    <Publicize Include="CalamityMod" IncludeCompilerGeneratedMembers="false" IncludeVirtualMembers="false" />
+  </ItemGroup>
+
   <ItemGroup>
     <Reference Include="CalamityMod">
       <HintPath>ModReferences\CalamityMod.dll</HintPath>
